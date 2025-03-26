@@ -15,6 +15,8 @@
         }
         canvas {
             display: block;
+            width: 100%;
+            height: 100%;
             touch-action: none;
         }
         #prompt {
@@ -30,7 +32,6 @@
             z-index: 100;
             animation: text-glow 2s infinite alternate;
             pointer-events: none;
-            margin-bottom: 5vh;
         }
         #winner {
             position: absolute;
@@ -105,6 +106,31 @@
             filter: drop-shadow(0 0 5px #00ff7f);
             animation: bounce 0.8s infinite alternate;
         }
+        #countdown-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        #countdown-text {
+            font-size: min(30vw, 200px);
+            font-weight: 900;
+            color: white;
+            text-shadow: 0 0 20px #00ff7f, 
+                         0 0 40px #00ff7f,
+                         0 0 80px #00ff7f;
+            transform: scale(0.1);
+            opacity: 0;
+        }
         @keyframes neon-flicker {
             0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
                 box-shadow: 0 0 15px #00ff7f,
@@ -138,32 +164,6 @@
                 transform: translate(-50%, -50%) scale(1);
                 text-shadow: 0 0 20px currentColor;
             }
-        }
-        /* Supercharged Countdown Styles */
-        #countdown-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
-        }
-        #countdown-text {
-            font-size: min(30vw, 200px);
-            font-weight: 900;
-            color: white;
-            text-shadow: 0 0 20px #00ff7f, 
-                         0 0 40px #00ff7f,
-                         0 0 80px #00ff7f;
-            transform: scale(0.1);
-            opacity: 0;
         }
         @keyframes countdown-pop {
             0% { 
@@ -204,23 +204,18 @@
     <div id="winner"></div>
     <button id="startButton">START CHALLENGE</button>
     
-    <!-- Countdown overlay -->
     <div id="countdown-overlay">
         <div id="countdown-text">3</div>
     </div>
-    
-    <!-- Audio elements -->
-    <audio id="wallCollisionSound" preload="auto">
-        <source src="col.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="ballCollisionSound" preload="auto">
+
+    <audio id="collisionSound" preload="auto">
         <source src="col.mp3" type="audio/mpeg">
     </audio>
     <audio id="countdownSound" preload="auto">
-        <source src="col.mp3" type="audio/mpeg">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-retro-game-over-213.mp3" type="audio/mpeg">
     </audio>
     <audio id="goSound" preload="auto">
-        <source src="col.mp3" type="audio/mpeg">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3" type="audio/mpeg">
     </audio>
 
     <script>
@@ -233,61 +228,31 @@
         const countdownOverlay = document.getElementById('countdown-overlay');
         const countdownText = document.getElementById('countdown-text');
         
-        // Audio setup
-        const wallCollisionSound = document.getElementById('wallCollisionSound');
-        const ballCollisionSound = document.getElementById('ballCollisionSound');
+        // Audio elements
+        const collisionSound = document.getElementById('collisionSound');
         const countdownSound = document.getElementById('countdownSound');
         const goSound = document.getElementById('goSound');
         
         // Set volumes
-        [wallCollisionSound, ballCollisionSound, countdownSound, goSound].forEach(sound => {
-            sound.volume = 0.3;
-        });
-        
-        // Audio context resume function for mobile
-        function setupAudio() {
-            if (typeof AudioContext !== 'undefined' || typeof webkitAudioContext !== 'undefined') {
-                const context = new (AudioContext || webkitAudioContext)();
-                const buffer = context.createBuffer(1, 1, 22050);
-                const source = context.createBufferSource();
-                source.buffer = buffer;
-                source.connect(context.destination);
-                source.start();
-                document.removeEventListener('click', setupAudio);
-            }
-        }
-        document.addEventListener('click', setupAudio);
-        
-        // Modified playSound function to ensure audio works
-        function playSound(sound) {
-            try {
-                sound.currentTime = 0;
-                sound.playbackRate = 0.9 + Math.random() * 0.2;
-                const playPromise = sound.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(e => console.log("Audio play prevented:", e));
-                }
-            } catch(e) {
-                console.log("Audio error:", e);
-            }
-        }
+        collisionSound.volume = 0.3;
+        countdownSound.volume = 0.5;
+        goSound.volume = 0.5;
 
         // Mobile detection
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        
-        // Game parameters with your exact gradient colors
+        function isMobile() {
+            return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
+        // Game parameters
         const BALL_COLORS = [
-            'linear-gradient(#FF0000, #CC0000)',
-            'linear-gradient(#FFFF00, #FFCC00)',
-            'linear-gradient(#0000FF, #0000AA)'
+            { gradient: ['#FF0000', '#CC0000'], solid: '#FF0000', name: 'RED' },
+            { gradient: ['#FFFF00', '#FFCC00'], solid: '#FFFF00', name: 'YELLOW' },
+            { gradient: ['#0000FF', '#0000AA'], solid: '#0000FF', name: 'BLUE' }
         ];
-        const BALL_NAMES = ['RED', 'YELLOW', 'BLUE'];
         const PORTAL_COLORS = ['#FF4081', '#00BCD4'];
-        const BOX_PADDING = isMobile ? 40 : 80;
-        const GAP_WIDTH = isMobile ? 60 : 80;
-        const INITIAL_SPEED = isMobile ? 3 : 4;
-        const SPEED_BOOST = 0.2;
-        const MAX_SPEED = isMobile ? 8 : 12;
+        
+        // Dynamic game parameters
+        let BOX_PADDING, GAP_WIDTH, INITIAL_SPEED, MAX_SPEED, BALL_RADIUS, PORTAL_RADIUS, PORTAL_MIN_RADIUS, PORTAL_MAX_RADIUS;
         
         // Game state
         let balls = [];
@@ -297,14 +262,39 @@
         let animationId;
         let gameStartTime = 0;
         const MIN_TIME_BEFORE_ESCAPE = 2000;
+        const SPEED_BOOST = 0.2;
         
-        // Supercharged Countdown function
+        function resizeGame() {
+            const mobile = isMobile();
+            BOX_PADDING = mobile ? 40 : 80;
+            GAP_WIDTH = mobile ? 60 : 80;
+            INITIAL_SPEED = mobile ? 3 : 4;
+            MAX_SPEED = mobile ? 8 : 12;
+            BALL_RADIUS = mobile ? 10 : 12;
+            PORTAL_RADIUS = mobile ? 40 : 50;
+            PORTAL_MIN_RADIUS = mobile ? 30 : 40;
+            PORTAL_MAX_RADIUS = mobile ? 50 : 60;
+            
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        function playSound(sound) {
+            sound.currentTime = 0;
+            try {
+                const playPromise = sound.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(e => console.log("Audio play prevented:", e));
+                }
+            } catch(e) {
+                console.log("Audio error:", e);
+            }
+        }
+
         function startCountdown() {
-            // First make sure button is completely gone
             startButton.style.opacity = 0;
             startButton.style.pointerEvents = 'none';
             
-            // Wait for button to fully disappear before starting countdown
             setTimeout(() => {
                 startButton.style.display = 'none';
                 countdownOverlay.style.opacity = 1;
@@ -313,21 +303,16 @@
                 
                 const showNumber = () => {
                     countdownText.textContent = count;
-                    
-                    // Reset animation
                     countdownText.style.animation = '';
-                    void countdownText.offsetWidth; // Trigger reflow
-                    
-                    // Apply animation
+                    void countdownText.offsetWidth;
                     countdownText.style.animation = 'countdown-pop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
                     
-                    // Play sound with different pitch for each number
-                    countdownSound.playbackRate = 0.8 + (count * 0.1);
-                    playSound(countdownSound);
+                    if (count > 0) {
+                        playSound(countdownSound);
+                    }
                     
                     if(count === 0) {
                         countdownText.textContent = "GO!";
-                        countdownText.style.animation = 'countdown-pop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
                         playSound(goSound);
                         
                         setTimeout(() => {
@@ -344,9 +329,8 @@
                     count--;
                 };
                 
-                // Start the countdown sequence
                 showNumber();
-            }, 300); // Matches the button fade-out transition time
+            }, 300);
         }
 
         function startGame() {
@@ -354,14 +338,12 @@
             gameLoop();
         }
         
-        // Initialize game
         function initGame() {
             gameActive = true;
             gameStartTime = Date.now();
             winnerElement.style.opacity = 0;
             promptElement.style.display = 'block';
             
-            // Create boundaries
             boundaries = [
                 { x1: BOX_PADDING, y1: BOX_PADDING, x2: canvas.width - BOX_PADDING, y2: BOX_PADDING },
                 { x1: canvas.width - BOX_PADDING, y1: BOX_PADDING, x2: canvas.width - BOX_PADDING, y2: canvas.height - BOX_PADDING },
@@ -370,14 +352,13 @@
                 { x1: BOX_PADDING, y1: BOX_PADDING, x2: BOX_PADDING, y2: canvas.height - BOX_PADDING }
             ];
             
-            // Create portals
             portals = [
                 { 
                     x: canvas.width * 0.3,
                     y: canvas.height * 0.5,
-                    radius: isMobile ? 40 : 50,
-                    minRadius: isMobile ? 30 : 40,
-                    maxRadius: isMobile ? 50 : 60,
+                    radius: PORTAL_RADIUS,
+                    minRadius: PORTAL_MIN_RADIUS,
+                    maxRadius: PORTAL_MAX_RADIUS,
                     pulseSpeed: 0.03,
                     pulsePhase: 0,
                     rotation: 0,
@@ -388,9 +369,9 @@
                 { 
                     x: canvas.width * 0.7,
                     y: canvas.height * 0.5,
-                    radius: isMobile ? 40 : 50,
-                    minRadius: isMobile ? 30 : 40,
-                    maxRadius: isMobile ? 50 : 60,
+                    radius: PORTAL_RADIUS,
+                    minRadius: PORTAL_MIN_RADIUS,
+                    maxRadius: PORTAL_MAX_RADIUS,
                     pulseSpeed: 0.03,
                     pulsePhase: Math.PI,
                     rotation: 0,
@@ -400,48 +381,19 @@
                 }
             ];
             
-            // Create balls with your exact gradient colors
-            balls = [
-                { 
-                    x: canvas.width * 0.25,
-                    y: canvas.height * 0.2,
-                    radius: isMobile ? 10 : 12,
-                    color: BALL_COLORS[0],
-                    name: BALL_NAMES[0],
-                    vx: (Math.random() - 0.5) * INITIAL_SPEED * 1.5,
-                    vy: Math.random() * INITIAL_SPEED * 0.5,
-                    trail: [],
-                    escaped: false,
-                    canEscape: false
-                },
-                { 
-                    x: canvas.width * 0.5,
-                    y: canvas.height * 0.2,
-                    radius: isMobile ? 10 : 12,
-                    color: BALL_COLORS[1],
-                    name: BALL_NAMES[1],
-                    vx: (Math.random() - 0.5) * INITIAL_SPEED * 1.5,
-                    vy: Math.random() * INITIAL_SPEED * 0.5,
-                    trail: [],
-                    escaped: false,
-                    canEscape: false
-                },
-                { 
-                    x: canvas.width * 0.75,
-                    y: canvas.height * 0.2,
-                    radius: isMobile ? 10 : 12,
-                    color: BALL_COLORS[2],
-                    name: BALL_NAMES[2],
-                    vx: (Math.random() - 0.5) * INITIAL_SPEED * 1.5,
-                    vy: Math.random() * INITIAL_SPEED * 0.5,
-                    trail: [],
-                    escaped: false,
-                    canEscape: false
-                }
-            ];
+            balls = BALL_COLORS.map((color, i) => ({
+                x: canvas.width * (0.25 + i * 0.25),
+                y: canvas.height * 0.2,
+                radius: BALL_RADIUS,
+                color: color,
+                vx: (Math.random() - 0.5) * INITIAL_SPEED * 1.5,
+                vy: Math.random() * INITIAL_SPEED * 0.5,
+                trail: [],
+                escaped: false,
+                canEscape: false
+            }));
         }
         
-        // Update game state
         function update() {
             if (!gameActive) return;
             
@@ -475,7 +427,7 @@
                     const distance = Math.sqrt(dx * dx + dy * dy);
                     
                     if (distance < ball.radius) {
-                        playSound(wallCollisionSound);
+                        playSound(collisionSound);
                         const nx = dx / distance;
                         const ny = dy / distance;
                         const dotProduct = ball.vx * nx + ball.vy * ny;
@@ -499,7 +451,7 @@
                         const distance = Math.sqrt(dx * dx + dy * dy);
                         
                         if (distance < ball1.radius + ball2.radius) {
-                            playSound(ballCollisionSound);
+                            playSound(collisionSound);
                             const nx = dx / distance;
                             const ny = dy / distance;
                             
@@ -567,7 +519,6 @@
             });
         }
         
-        // Draw vortex effect
         function drawVortex(portal) {
             const currentRadius = portal.minRadius + 
                 (Math.sin(portal.pulsePhase) * 0.5 + 0.5) * 
@@ -599,8 +550,7 @@
             ctx.restore();
         }
         
-        // Create gradient for balls
-        function createBallGradient(ctx, ball) {
+        function createBallGradient(ball) {
             const gradient = ctx.createRadialGradient(
                 ball.x - ball.radius * 0.3,
                 ball.y - ball.radius * 0.3,
@@ -609,38 +559,19 @@
                 ball.y,
                 ball.radius
             );
-            
-            if (ball.color.includes('#FF0000')) {
-                // Red gradient
-                gradient.addColorStop(0, '#FF0000');
-                gradient.addColorStop(1, '#CC0000');
-            } else if (ball.color.includes('#FFFF00')) {
-                // Yellow gradient
-                gradient.addColorStop(0, '#FFFF00');
-                gradient.addColorStop(1, '#FFCC00');
-            } else {
-                // Blue gradient
-                gradient.addColorStop(0, '#0000FF');
-                gradient.addColorStop(1, '#0000AA');
-            }
-            
+            gradient.addColorStop(0, ball.color.gradient[0]);
+            gradient.addColorStop(1, ball.color.gradient[1]);
             return gradient;
         }
         
-        // Create celebration effects
         function createCelebration(color) {
-            let confettiColor;
-            if (color.includes('FF0000')) confettiColor = '#FF0000';
-            else if (color.includes('FFFF00')) confettiColor = '#FFFF00';
-            else confettiColor = '#0000FF';
-            
             confetti({
                 particleCount: 150,
                 spread: 90,
                 origin: { y: 0.6 },
-                colors: [confettiColor, '#ffffff'],
+                colors: [color.solid, '#ffffff'],
                 shapes: ['circle', 'square'],
-                scalar: isMobile ? 0.8 : 1
+                scalar: isMobile() ? 0.8 : 1
             });
             
             setTimeout(() => {
@@ -649,37 +580,27 @@
                     angle: 60,
                     spread: 70,
                     origin: { x: 0, y: 0.7 },
-                    colors: [confettiColor]
+                    colors: [color.solid]
                 });
                 confetti({
                     particleCount: 100,
                     angle: 120,
                     spread: 70,
                     origin: { x: 1, y: 0.7 },
-                    colors: [confettiColor]
+                    colors: [color.solid]
                 });
             }, 300);
         }
         
-        // Declare winner
         function declareWinner(ball) {
             gameActive = false;
             promptElement.style.display = 'none';
             
-            winnerElement.textContent = `${ball.name} WINS!`;
-            
-            // Set winner text color based on ball color
-            if (ball.color.includes('FF0000')) {
-                winnerElement.style.color = '#FF0000';
-            } else if (ball.color.includes('FFFF00')) {
-                winnerElement.style.color = '#FFFF00';
-            } else {
-                winnerElement.style.color = '#0000FF';
-            }
-            
+            winnerElement.textContent = `${ball.color.name} WINS!`;
+            winnerElement.style.color = ball.color.solid;
             winnerElement.style.opacity = 1;
             winnerElement.style.animation = 'winner-pop 0.8s forwards';
-            winnerElement.style.borderColor = winnerElement.style.color;
+            winnerElement.style.borderColor = ball.color.solid;
             
             createCelebration(ball.color);
             
@@ -690,7 +611,6 @@
             }, 4000);
         }
         
-        // Render game
         function render() {
             ctx.fillStyle = '#000000';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -737,31 +657,20 @@
             });
             
             balls.forEach(ball => {
-                // Draw trail (semi-transparent)
                 for (let i = 0; i < ball.trail.length; i++) {
                     const alpha = (i + 1) / ball.trail.length * 0.6;
                     ctx.beginPath();
                     ctx.arc(ball.trail[i].x, ball.trail[i].y, ball.radius, 0, Math.PI * 2);
-                    
-                    // Trail uses solid color version of gradient
-                    if (ball.color.includes('FF0000')) {
-                        ctx.fillStyle = `rgba(255, 0, 0, ${alpha})`;
-                    } else if (ball.color.includes('FFFF00')) {
-                        ctx.fillStyle = `rgba(255, 255, 0, ${alpha})`;
-                    } else {
-                        ctx.fillStyle = `rgba(0, 0, 255, ${alpha})`;
-                    }
+                    ctx.fillStyle = `rgba(${hexToRgb(ball.color.solid).r}, ${hexToRgb(ball.color.solid).g}, ${hexToRgb(ball.color.solid).b}, ${alpha})`;
                     ctx.fill();
                 }
                 
-                // Draw main ball with gradient
-                const gradient = createBallGradient(ctx, ball);
+                const gradient = createBallGradient(ball);
                 ctx.fillStyle = gradient;
                 ctx.beginPath();
                 ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
                 ctx.fill();
                 
-                // Add highlight
                 const highlight = ctx.createRadialGradient(
                     ball.x - ball.radius * 0.3,
                     ball.y - ball.radius * 0.3,
@@ -785,14 +694,19 @@
             });
         }
         
-        // Animation loop
+        function hexToRgb(hex) {
+            const r = parseInt(hex.slice(1, 3), 16);
+            const g = parseInt(hex.slice(3, 5), 16);
+            const b = parseInt(hex.slice(5, 7), 16);
+            return { r, g, b };
+        }
+        
         function gameLoop() {
             update();
             render();
             animationId = requestAnimationFrame(gameLoop);
         }
         
-        // Handle start button
         startButton.addEventListener('click', () => {
             startButton.style.transform = 'translate(-50%, -50%) scale(0.9)';
             setTimeout(() => {
@@ -803,13 +717,17 @@
             }, 100);
         });
         
-        // Handle resize
-        function handleResize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', handleResize);
-        handleResize();
+        window.addEventListener('resize', () => {
+            resizeGame();
+            if (gameActive) {
+                cancelAnimationFrame(animationId);
+                initGame();
+                gameLoop();
+            }
+        });
+        
+        // Initialize game
+        resizeGame();
     </script>
 </body>
 </html>
