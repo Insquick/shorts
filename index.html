@@ -3,18 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE ALGORITHM EXPERIMENT</title>
+    <title>ALGORITHM MIND HACK</title>
     <style>
         body {
             margin: 0;
             padding: 0;
-            background-color: black;
+            background-color: #000;
             overflow: hidden;
-            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 100vh;
             font-family: 'Arial Black', sans-serif;
+        }
+        
+        .reel-container {
+            position: relative;
+            width: 100%;
+            max-width: 360px;
+            height: 640px;
+            background: black;
+            overflow: hidden;
         }
         
         .algorithm-container {
@@ -51,6 +60,8 @@
             text-align: center;
             opacity: 0;
             transition: opacity 0.3s ease-in-out;
+            padding: 20px;
+            box-sizing: border-box;
         }
         
         .text-overlay.active {
@@ -58,19 +69,51 @@
         }
         
         .main-text {
-            font-size: 9vw;
+            font-size: 32px;
             font-weight: 900;
             text-transform: uppercase;
             margin: 0;
             text-shadow: 0 0 10px currentColor;
-            line-height: 1;
+            line-height: 1.2;
         }
         
         .sub-text {
-            font-size: 4vw;
+            font-size: 18px;
             margin-top: 15px;
             text-shadow: 0 0 5px currentColor;
-            line-height: 1;
+            line-height: 1.2;
+        }
+        
+        /* Matrix End Screen - Integrated into Algorithm 5 */
+        .matrix-cta {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 150;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        .matrix-cta.active {
+            opacity: 1;
+        }
+        
+        .cta-text {
+            color: lime;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 0 0 10px #00ff00;
+            animation: pulse 1s infinite alternate;
+            margin-bottom: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 5px;
+            max-width: 80%;
         }
         
         /* Text Animation Effects */
@@ -92,7 +135,7 @@
         
         @keyframes pulse {
             0% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1.05); opacity: 1; }
         }
         
         .text-glitch {
@@ -168,8 +211,8 @@
         }
         
         #algorithm2 {
-            width: 80vmin;
-            height: 80vmin;
+            width: 280px;
+            height: 280px;
             background: conic-gradient(
                 from 0deg,
                 #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000
@@ -231,9 +274,9 @@
             background: black;
             color: lime;
             font-family: monospace;
-            font-size: 24px;
+            font-size: 16px;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
             overflow: hidden;
         }
         
@@ -249,68 +292,62 @@
             90% { opacity: 1; }
             100% { transform: translateY(100vh); opacity: 0; }
         }
-        
-        .reel-overlay {
-            position: absolute;
-            bottom: 15%;
-            width: 100%;
-            text-align: center;
-            z-index: 200;
-            color: white;
-            font-size: 3vw;
-            text-shadow: 0 0 5px black;
-            animation: pulse 1s infinite alternate;
-        }
     </style>
 </head>
 <body>
-    <div class="algorithm-container">
-        <div id="algorithm1" class="algorithm"></div>
-        <div id="algorithm2" class="algorithm"></div>
-        <div id="algorithm3" class="algorithm"></div>
-        <div id="algorithm4" class="algorithm"></div>
-        <div id="algorithm5" class="algorithm"></div>
-    </div>
+    <div class="reel-container">
+        <div class="algorithm-container">
+            <div id="algorithm1" class="algorithm"></div>
+            <div id="algorithm2" class="algorithm"></div>
+            <div id="algorithm3" class="algorithm"></div>
+            <div id="algorithm4" class="algorithm"></div>
+            <div id="algorithm5" class="algorithm"></div>
+        </div>
 
-    <!-- Continuous Story Text Overlays -->
-    <div class="text-overlay" id="text1">
-        <h1 class="main-text text-tremble" style="color: #ff00ff;">DON'T LOOK AWAY</h1>
-        <p class="sub-text text-pulse" style="color: cyan;">THE ALGORITHM SEES YOU</p>
-    </div>
-    
-    <div class="text-overlay" id="text2">
-        <h1 class="main-text text-glitch" data-text="IT'S LEARNING" style="color: yellow;">IT'S LEARNING</h1>
-        <p class="sub-text text-flicker" style="color: magenta;">YOUR BRAINWAVES</p>
-    </div>
-    
-    <div class="text-overlay" id="text3">
-        <h1 class="main-text text-shake" style="color: lime;">RESISTANCE IS USELESS</h1>
-        <p class="sub-text" style="color: white; animation: glitch-effect 1s infinite;">YOUR MIND IS BEING OPTIMIZED</p>
-    </div>
-    
-    <div class="text-overlay" id="text4">
-        <h1 class="main-text" style="color: cyan; text-shadow: 0 0 20px cyan; animation: pulse 0.3s infinite alternate;">YOU'RE ALMOST THERE</h1>
-        <p class="sub-text" style="color: magenta; animation: tremble 0.1s infinite;">JUST A FEW MORE SECONDS...</p>
-    </div>
-    
-    <div class="text-overlay" id="text5">
-        <h1 class="main-text text-glitch" data-text="PROCESS COMPLETE" style="color: lime;">PROCESS COMPLETE</h1>
-        <p class="sub-text text-flicker" style="color: cyan;">YOU ARE NOW UPDATED</p>
-    </div>
-    
-    <div class="reel-overlay">
-        FOLLOW FOR MORE MIND HACKS
+        <!-- Continuous Story Text Overlays -->
+        <div class="text-overlay" id="text1">
+            <h1 class="main-text text-tremble" style="color: #ff00ff;">DON'T LOOK AWAY</h1>
+            <p class="sub-text text-pulse" style="color: cyan;">THE ALGORITHM SEES YOU</p>
+        </div>
+        
+        <div class="text-overlay" id="text2">
+            <h1 class="main-text text-glitch" data-text="IT'S LEARNING" style="color: yellow;">IT'S LEARNING</h1>
+            <p class="sub-text text-flicker" style="color: magenta;">YOUR BRAINWAVES</p>
+        </div>
+        
+        <div class="text-overlay" id="text3">
+            <h1 class="main-text text-shake" style="color: lime;">RESISTANCE IS USELESS</h1>
+            <p class="sub-text" style="color: white; animation: glitch-effect 1s infinite;">YOUR MIND IS BEING OPTIMIZED</p>
+        </div>
+        
+        <div class="text-overlay" id="text4">
+            <h1 class="main-text" style="color: cyan; text-shadow: 0 0 20px cyan; animation: pulse 0.3s infinite alternate;">YOU'RE ALMOST THERE</h1>
+            <p class="sub-text" style="color: magenta; animation: tremble 0.1s infinite;">JUST A FEW MORE SECONDS...</p>
+        </div>
+        
+        <div class="text-overlay" id="text5">
+            <h1 class="main-text text-glitch" data-text="PROCESS COMPLETE" style="color: lime;">PROCESS COMPLETE</h1>
+            <p class="sub-text text-flicker" style="color: cyan;">YOU ARE NOW UPDATED</p>
+        </div>
+        
+        <!-- Matrix CTA (appears during algorithm5) -->
+        <div class="matrix-cta" id="matrixCTA">
+            <div class="cta-text">LIKE AND FOLLOW FOR MORE MIND BENDING!</div>
+        </div>
     </div>
 
     <script>
         const algorithms = document.querySelectorAll('.algorithm');
         const texts = document.querySelectorAll('.text-overlay');
+        const matrixCTA = document.getElementById('matrixCTA');
         let currentIndex = 0;
-        const DURATION = 2500; // 2.5 seconds per scene for 15s reel
+        const DURATION = 2500; // 2.5 seconds per scene
+        const CTA_DELAY = 12500; // Show CTA at 12.5 seconds (5th scene)
+        const TOTAL_DURATION = 15000; // 15 second reel
         
         // Generate binary rain digits
         const algorithm5 = document.getElementById('algorithm5');
-        for (let i = 0; i < 200; i++) {
+        for (let i = 0; i < 150; i++) {
             const digit = document.createElement('div');
             digit.className = 'binary-digit';
             digit.textContent = Math.random() > 0.5 ? '1' : '0';
@@ -323,8 +360,7 @@
         algorithms[currentIndex].classList.add('active');
         texts[currentIndex].classList.add('active');
         
-        // Rotate algorithms and texts
-        setInterval(() => {
+        const interval = setInterval(() => {
             // Hide current
             algorithms[currentIndex].classList.remove('active');
             texts[currentIndex].classList.remove('active');
@@ -346,15 +382,23 @@
             
         }, DURATION);
         
-        // Auto-stop after 15 seconds (perfect reel length)
+        // Show CTA during matrix scene
         setTimeout(() => {
-            clearInterval(interval);
-            // Final flash
-            document.body.style.backgroundColor = 'white';
-            setTimeout(() => {
-                document.body.style.backgroundColor = 'black';
-            }, 200);
-        }, 15000);
+            matrixCTA.classList.add('active');
+        }, CTA_DELAY);
+        
+        // Perfect loop reset
+        setTimeout(() => {
+            // Reset everything (for perfect looping)
+            algorithms[currentIndex].classList.remove('active');
+            texts[currentIndex].classList.remove('active');
+            matrixCTA.classList.remove('active');
+            
+            // Restart from beginning
+            currentIndex = 0;
+            algorithms[currentIndex].classList.add('active');
+            texts[currentIndex].classList.add('active');
+        }, TOTAL_DURATION);
     </script>
 </body>
 </html>
