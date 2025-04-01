@@ -2,794 +2,359 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Portal Escape Challenge</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE ALGORITHM EXPERIMENT</title>
     <style>
         body {
             margin: 0;
             padding: 0;
+            background-color: black;
             overflow: hidden;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #000;
-            height: 100vh;
-            touch-action: manipulation;
-            font-family: 'Arial Black', Arial, sans-serif;
+            font-family: 'Arial Black', sans-serif;
         }
         
-        #game-container {
-            position: relative;
-            width: 100vmin;
-            height: 100vmin;
-            max-width: 100%;
-            max-height: 100%;
-        }
-        
-        canvas {
-            display: block;
+        .algorithm-container {
+            position: absolute;
             width: 100%;
             height: 100%;
-            touch-action: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
-        /* All measurements now use vmin units for perfect scaling */
-        #prompt {
+        .algorithm {
+            opacity: 0;
             position: absolute;
-            top: 4vmin;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            font-size: 6vmin;
-            text-align: center;
-            text-shadow: 0 0 1vmin #00ff7f;
-            width: 90%;
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        .algorithm.active {
+            opacity: 1;
+        }
+        
+        /* Text Overlay Styles */
+        .text-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             z-index: 100;
-            animation: text-glow 2s infinite alternate;
             pointer-events: none;
-        }
-        
-        #winner {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             color: white;
-            font-size: 10vmin;
             text-align: center;
             opacity: 0;
-            pointer-events: none;
-            z-index: 20;
-            width: 90%;
-            text-transform: uppercase;
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        .text-overlay.active {
+            opacity: 1;
+        }
+        
+        .main-text {
+            font-size: 9vw;
             font-weight: 900;
-            transition: all 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-            text-shadow: 0 0 2vmin currentColor;
-            background: rgba(0,0,0,0.7);
-            padding: 2vmin;
-            border-radius: 2vmin;
-            border: 0.3vmin solid currentColor;
+            text-transform: uppercase;
+            margin: 0;
+            text-shadow: 0 0 10px currentColor;
+            line-height: 1;
         }
         
-        #startButton {
+        .sub-text {
+            font-size: 4vw;
+            margin-top: 15px;
+            text-shadow: 0 0 5px currentColor;
+            line-height: 1;
+        }
+        
+        /* Text Animation Effects */
+        .text-tremble {
+            animation: tremble 0.1s infinite alternate;
+        }
+        
+        @keyframes tremble {
+            0% { transform: translate(-1px, -1px) rotate(-0.5deg); }
+            25% { transform: translate(2px, 0) rotate(0.5deg); }
+            50% { transform: translate(-1px, 1px) rotate(-0.5deg); }
+            75% { transform: translate(1px, -1px) rotate(0.5deg); }
+            100% { transform: translate(0, 0) rotate(0); }
+        }
+        
+        .text-pulse {
+            animation: pulse 0.8s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.1); opacity: 1; }
+        }
+        
+        .text-glitch {
+            position: relative;
+        }
+        
+        .text-glitch::before, .text-glitch::after {
+            content: attr(data-text);
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 1.5vmin 3vmin;
-            background: rgba(0,255,127,0.3);
-            color: white;
-            border: 0.3vmin solid #00ff7f;
-            border-radius: 1.5vmin;
-            font-size: 6vmin;
-            cursor: pointer;
-            z-index: 10;
-            transition: all 0.3s;
-            font-weight: bold;
-            text-shadow: 0 0 0.5vmin #00ff7f;
-            box-shadow: 0 0 1.5vmin rgba(0,255,127,0.5);
-        }
-        
-        #startButton:hover {
-            background: rgba(0,255,127,0.5);
-            transform: translate(-50%, -50%) scale(1.05);
-        }
-        
-        .gap-container {
-            position: absolute;
-            bottom: 5vmin;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column-reverse;
-            align-items: center;
-            gap: 2vmin;
-            z-index: 5;
-        }
-        
-        .gap {
-            width: 15vmin;
-            height: 0.5vmin;
-            border: 0.2vmin solid #00ff7f;
-            border-radius: 0.5vmin;
-            box-shadow: 0 0 1.5vmin #00ff7f,
-                        inset 0 0 1vmin #00ff7f;
-            animation: neon-flicker 2s infinite alternate;
-        }
-        
-        .arrow {
-            width: 0;
-            height: 0;
-            border-left: 3vmin solid transparent;
-            border-right: 3vmin solid transparent;
-            border-bottom: 5vmin solid #00ff7f;
-            filter: drop-shadow(0 0 0.5vmin #00ff7f);
-            animation: bounce 0.8s infinite alternate;
-        }
-        
-        #countdown-overlay {
-            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
         }
         
-        #countdown-text {
-            font-size: 30vmin;
-            font-weight: 900;
+        .text-glitch::before {
+            color: cyan;
+            z-index: -1;
+            animation: glitch-effect 3s infinite;
+        }
+        
+        .text-glitch::after {
+            color: magenta;
+            z-index: -2;
+            animation: glitch-effect 2s infinite reverse;
+        }
+        
+        @keyframes glitch-effect {
+            0% { transform: translate(0); }
+            20% { transform: translate(-3px, 3px); }
+            40% { transform: translate(-3px, -3px); }
+            60% { transform: translate(3px, 3px); }
+            80% { transform: translate(3px, -3px); }
+            100% { transform: translate(0); }
+        }
+        
+        .text-flicker {
+            animation: flicker 0.1s infinite alternate;
+        }
+        
+        @keyframes flicker {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .text-shake {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) infinite both;
+        }
+        
+        @keyframes shake {
+            0%, 100% {transform: translateX(0);}
+            10%, 30%, 50%, 70%, 90% {transform: translateX(-5px);}
+            20%, 40%, 60%, 80% {transform: translateX(5px);}
+        }
+        
+        /* Algorithm Styles */
+        #algorithm1 {
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(255, 0, 255, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 255, 0.3) 1px, transparent 1px),
+                linear-gradient(rgba(0, 255, 255, 0.2) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.2) 1px, transparent 1px);
+            background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px;
+            animation: pulse1 1s infinite alternate;
+        }
+        
+        @keyframes pulse1 {
+            0% { filter: brightness(1); }
+            100% { filter: brightness(1.5); }
+        }
+        
+        #algorithm2 {
+            width: 80vmin;
+            height: 80vmin;
+            background: conic-gradient(
+                from 0deg,
+                #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000
+            );
+            border-radius: 50%;
+            animation: spin 2s linear infinite, pulse2 1.5s infinite alternate;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse2 {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(180deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+        
+        #algorithm3 {
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, black 25%, transparent 25%) -50px 0,
+                linear-gradient(-45deg, black 25%, transparent 25%) -50px 0,
+                linear-gradient(45deg, transparent 75%, #ff00ff 75%),
+                linear-gradient(-45deg, transparent 75%, #ff00ff 75%);
+            background-size: 100px 100px;
+            animation: slide 8s linear infinite;
+        }
+        
+        @keyframes slide {
+            from { background-position: 0 0, 0 0, 0 0, 0 0; }
+            to { background-position: 200px 0, 200px 0, 200px 0, 200px 0; }
+        }
+        
+        #algorithm4 {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                circle at center,
+                rgba(0, 255, 255, 0.8) 0%,
+                rgba(0, 100, 255, 0.6) 30%,
+                rgba(255, 0, 255, 0.4) 60%,
+                rgba(0, 0, 0, 0) 90%
+            );
+            animation: plasma 1.5s ease-in-out infinite alternate;
+        }
+        
+        @keyframes plasma {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.5); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+        
+        #algorithm5 {
+            width: 100%;
+            height: 100%;
+            background: black;
+            color: lime;
+            font-family: monospace;
+            font-size: 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            overflow: hidden;
+        }
+        
+        .binary-digit {
+            animation: fall linear infinite;
+            animation-duration: calc(var(--duration) * 1s);
+            animation-delay: calc(var(--delay) * 1s);
+        }
+        
+        @keyframes fall {
+            0% { transform: translateY(-100%); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+        
+        .reel-overlay {
+            position: absolute;
+            bottom: 15%;
+            width: 100%;
+            text-align: center;
+            z-index: 200;
             color: white;
-            text-shadow: 0 0 2vmin #00ff7f, 
-                         0 0 4vmin #00ff7f,
-                         0 0 8vmin #00ff7f;
-            transform: scale(0.1);
-            opacity: 0;
-        }
-        
-        @keyframes neon-flicker {
-            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-                box-shadow: 0 0 1.5vmin #00ff7f,
-                            inset 0 0 1vmin #00ff7f;
-            }
-            20%, 24%, 55% {
-                box-shadow: 0 0 0.5vmin #00ff7f,
-                            inset 0 0 0.3vmin #00ff7f;
-            }
-        }
-        
-        @keyframes bounce {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-1vmin); }
-        }
-        
-        @keyframes text-glow {
-            0% { text-shadow: 0 0 1vmin #00ff7f; }
-            100% { text-shadow: 0 0 2vmin #00ff7f, 0 0 3vmin #00ff7f; }
-        }
-        
-        @keyframes winner-pop {
-            0% {
-                transform: translate(-50%, -50%) scale(0.5);
-                opacity: 0;
-                text-shadow: 0 0 0px currentColor;
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.1);
-                opacity: 1;
-                text-shadow: 0 0 3vmin currentColor;
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(1);
-                text-shadow: 0 0 2vmin currentColor;
-            }
-        }
-        
-        @keyframes countdown-pop {
-            0% { 
-                transform: scale(0.1) rotate(-20deg);
-                opacity: 0;
-                text-shadow: 0 0 0px #00ff7f;
-            }
-            20% {
-                transform: scale(1.5) rotate(5deg);
-                opacity: 1;
-                text-shadow: 0 0 5vmin #00ff7f;
-            }
-            40% {
-                transform: scale(0.9) rotate(0deg);
-            }
-            60% {
-                transform: scale(1.1) rotate(0deg);
-            }
-            100% {
-                transform: scale(1) rotate(0deg);
-                opacity: 1;
-                text-shadow: 0 0 2vmin #00ff7f;
-            }
-        }
-        
-        @keyframes countdown-exit {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(1.5); opacity: 0; }
+            font-size: 3vw;
+            text-shadow: 0 0 5px black;
+            animation: pulse 1s infinite alternate;
         }
     </style>
 </head>
 <body>
-    <div id="game-container">
-        <div id="prompt">Which ball will escape first???</div>
-        <canvas id="gameCanvas"></canvas>
-        <div class="gap-container">
-            <div class="arrow"></div>
-            <div class="gap"></div>
-        </div>
-        <div id="winner"></div>
-        <button id="startButton">START CHALLENGE</button>
-        
-        <div id="countdown-overlay">
-            <div id="countdown-text">3</div>
-        </div>
+    <div class="algorithm-container">
+        <div id="algorithm1" class="algorithm"></div>
+        <div id="algorithm2" class="algorithm"></div>
+        <div id="algorithm3" class="algorithm"></div>
+        <div id="algorithm4" class="algorithm"></div>
+        <div id="algorithm5" class="algorithm"></div>
+    </div>
 
-        <audio id="collisionSound" preload="auto">
-            <source src="col.mp3" type="audio/mpeg">
-        </audio>
-        <audio id="countdownSound" preload="auto">
-            <source src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-retro-game-over-213.mp3" type="audio/mpeg">
-        </audio>
-        <audio id="goSound" preload="auto">
-            <source src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3" type="audio/mpeg">
-        </audio>
+    <!-- Continuous Story Text Overlays -->
+    <div class="text-overlay" id="text1">
+        <h1 class="main-text text-tremble" style="color: #ff00ff;">DON'T LOOK AWAY</h1>
+        <p class="sub-text text-pulse" style="color: cyan;">THE ALGORITHM SEES YOU</p>
+    </div>
+    
+    <div class="text-overlay" id="text2">
+        <h1 class="main-text text-glitch" data-text="IT'S LEARNING" style="color: yellow;">IT'S LEARNING</h1>
+        <p class="sub-text text-flicker" style="color: magenta;">YOUR BRAINWAVES</p>
+    </div>
+    
+    <div class="text-overlay" id="text3">
+        <h1 class="main-text text-shake" style="color: lime;">RESISTANCE IS USELESS</h1>
+        <p class="sub-text" style="color: white; animation: glitch-effect 1s infinite;">YOUR MIND IS BEING OPTIMIZED</p>
+    </div>
+    
+    <div class="text-overlay" id="text4">
+        <h1 class="main-text" style="color: cyan; text-shadow: 0 0 20px cyan; animation: pulse 0.3s infinite alternate;">YOU'RE ALMOST THERE</h1>
+        <p class="sub-text" style="color: magenta; animation: tremble 0.1s infinite;">JUST A FEW MORE SECONDS...</p>
+    </div>
+    
+    <div class="text-overlay" id="text5">
+        <h1 class="main-text text-glitch" data-text="PROCESS COMPLETE" style="color: lime;">PROCESS COMPLETE</h1>
+        <p class="sub-text text-flicker" style="color: cyan;">YOU ARE NOW UPDATED</p>
+    </div>
+    
+    <div class="reel-overlay">
+        FOLLOW FOR MORE MIND HACKS
     </div>
 
     <script>
-        // Canvas setup
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        const winnerElement = document.getElementById('winner');
-        const startButton = document.getElementById('startButton');
-        const promptElement = document.getElementById('prompt');
-        const countdownOverlay = document.getElementById('countdown-overlay');
-        const countdownText = document.getElementById('countdown-text');
+        const algorithms = document.querySelectorAll('.algorithm');
+        const texts = document.querySelectorAll('.text-overlay');
+        let currentIndex = 0;
+        const DURATION = 2500; // 2.5 seconds per scene for 15s reel
         
-        // Audio elements
-        const collisionSound = document.getElementById('collisionSound');
-        const countdownSound = document.getElementById('countdownSound');
-        const goSound = document.getElementById('goSound');
-        
-        // Set volumes
-        collisionSound.volume = 0.3;
-        countdownSound.volume = 0.5;
-        goSound.volume = 0.5;
-
-        // Mobile detection
-        function isMobile() {
-            return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        }
-
-        // Game parameters with your new ball gradient colors
-        const BALL_COLORS = [
-            { 
-                gradient: ['#FFFF00', '#FFA500', '#FF0000'], // Yellow to Orange to Red
-                solid: '#FF0000', 
-                name: 'RED' 
-            },
-            { 
-                gradient: ['#FFFF00', '#FFD700', '#FFA500'], // Yellow to Gold to Orange
-                solid: '#FFFF00', 
-                name: 'YELLOW' 
-            },
-            { 
-                gradient: ['#ADD8E6', '#0000FF', '#00008B'], // Light Blue to Blue to Dark Blue
-                solid: '#0000FF', 
-                name: 'BLUE' 
-            }
-        ];
-        const PORTAL_COLORS = ['#FF4081', '#00BCD4'];
-        
-        // Dynamic game parameters
-        let BOX_PADDING, GAP_WIDTH, INITIAL_SPEED, MAX_SPEED, BALL_RADIUS, PORTAL_RADIUS, PORTAL_MIN_RADIUS, PORTAL_MAX_RADIUS;
-        
-        // Game state
-        let balls = [];
-        let portals = [];
-        let boundaries = [];
-        let gameActive = false;
-        let animationId;
-        let gameStartTime = 0;
-        const MIN_TIME_BEFORE_ESCAPE = 2000;
-        const SPEED_BOOST = 0.2;
-        
-        function resizeGame() {
-            const size = Math.min(window.innerWidth, window.innerHeight);
-            const container = document.getElementById('game-container');
-            container.style.width = size + 'px';
-            container.style.height = size + 'px';
-            canvas.width = size;
-            canvas.height = size;
-            
-            const mobile = isMobile();
-            BOX_PADDING = mobile ? size * 0.05 : size * 0.08;
-            GAP_WIDTH = mobile ? size * 0.08 : size * 0.1;
-            INITIAL_SPEED = mobile ? size * 0.003 : size * 0.004;
-            MAX_SPEED = mobile ? size * 0.008 : size * 0.012;
-            BALL_RADIUS = mobile ? size * 0.015 : size * 0.02;
-            PORTAL_RADIUS = mobile ? size * 0.08 : size * 0.1;
-            PORTAL_MIN_RADIUS = mobile ? size * 0.06 : size * 0.08;
-            PORTAL_MAX_RADIUS = mobile ? size * 0.1 : size * 0.12;
+        // Generate binary rain digits
+        const algorithm5 = document.getElementById('algorithm5');
+        for (let i = 0; i < 200; i++) {
+            const digit = document.createElement('div');
+            digit.className = 'binary-digit';
+            digit.textContent = Math.random() > 0.5 ? '1' : '0';
+            digit.style.setProperty('--duration', Math.random() * 3 + 2);
+            digit.style.setProperty('--delay', Math.random() * 3);
+            algorithm5.appendChild(digit);
         }
         
-        function playSound(sound) {
-            sound.currentTime = 0;
-            try {
-                const playPromise = sound.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(e => console.log("Audio play prevented:", e));
-                }
-            } catch(e) {
-                console.log("Audio error:", e);
-            }
-        }
-
-        function startCountdown() {
-            startButton.style.opacity = 0;
-            startButton.style.pointerEvents = 'none';
-            
-            setTimeout(() => {
-                startButton.style.display = 'none';
-                countdownOverlay.style.opacity = 1;
-                
-                let count = 3;
-                
-                const showNumber = () => {
-                    countdownText.textContent = count;
-                    countdownText.style.animation = '';
-                    void countdownText.offsetWidth;
-                    countdownText.style.animation = 'countdown-pop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
-                    
-                    if (count > 0) {
-                        playSound(countdownSound);
-                    }
-                    
-                    if(count === 0) {
-                        countdownText.textContent = "GO!";
-                        playSound(goSound);
-                        
-                        setTimeout(() => {
-                            countdownText.style.animation = 'countdown-exit 0.5s forwards';
-                            setTimeout(() => {
-                                countdownOverlay.style.opacity = 0;
-                                startGame();
-                            }, 500);
-                        }, 800);
-                    } else {
-                        setTimeout(showNumber, 1000);
-                    }
-                    
-                    count--;
-                };
-                
-                showNumber();
-            }, 300);
-        }
-
-        function startGame() {
-            initGame();
-            gameLoop();
-        }
+        // Show first algorithm and text immediately
+        algorithms[currentIndex].classList.add('active');
+        texts[currentIndex].classList.add('active');
         
-        function initGame() {
-            gameActive = true;
-            gameStartTime = Date.now();
-            winnerElement.style.opacity = 0;
-            promptElement.style.display = 'block';
+        // Rotate algorithms and texts
+        setInterval(() => {
+            // Hide current
+            algorithms[currentIndex].classList.remove('active');
+            texts[currentIndex].classList.remove('active');
             
-            boundaries = [
-                { x1: BOX_PADDING, y1: BOX_PADDING, x2: canvas.width - BOX_PADDING, y2: BOX_PADDING },
-                { x1: canvas.width - BOX_PADDING, y1: BOX_PADDING, x2: canvas.width - BOX_PADDING, y2: canvas.height - BOX_PADDING },
-                { x1: BOX_PADDING, y1: canvas.height - BOX_PADDING, x2: canvas.width/2 - GAP_WIDTH/2, y2: canvas.height - BOX_PADDING },
-                { x1: canvas.width/2 + GAP_WIDTH/2, y1: canvas.height - BOX_PADDING, x2: canvas.width - BOX_PADDING, y2: canvas.height - BOX_PADDING },
-                { x1: BOX_PADDING, y1: BOX_PADDING, x2: BOX_PADDING, y2: canvas.height - BOX_PADDING }
-            ];
+            // Move to next
+            currentIndex = (currentIndex + 1) % algorithms.length;
             
-            portals = [
-                { 
-                    x: canvas.width * 0.3,
-                    y: canvas.height * 0.5,
-                    radius: PORTAL_RADIUS,
-                    minRadius: PORTAL_MIN_RADIUS,
-                    maxRadius: PORTAL_MAX_RADIUS,
-                    pulseSpeed: 0.03,
-                    pulsePhase: 0,
-                    rotation: 0,
-                    rotationSpeed: 0.01,
-                    color: PORTAL_COLORS[0],
-                    secondaryColor: '#FF5252'
-                },
-                { 
-                    x: canvas.width * 0.7,
-                    y: canvas.height * 0.5,
-                    radius: PORTAL_RADIUS,
-                    minRadius: PORTAL_MIN_RADIUS,
-                    maxRadius: PORTAL_MAX_RADIUS,
-                    pulseSpeed: 0.03,
-                    pulsePhase: Math.PI,
-                    rotation: 0,
-                    rotationSpeed: -0.01,
-                    color: PORTAL_COLORS[1],
-                    secondaryColor: '#2196F3'
-                }
-            ];
+            // Show next
+            algorithms[currentIndex].classList.add('active');
+            texts[currentIndex].classList.add('active');
             
-            balls = BALL_COLORS.map((color, i) => ({
-                x: canvas.width * (0.25 + i * 0.25),
-                y: canvas.height * 0.2,
-                radius: BALL_RADIUS,
-                color: color,
-                vx: (Math.random() - 0.5) * INITIAL_SPEED * 1.5,
-                vy: Math.random() * INITIAL_SPEED * 0.5,
-                trail: [],
-                escaped: false,
-                canEscape: false
-            }));
-        }
-        
-        function update() {
-            if (!gameActive) return;
-            
-            const currentTime = Date.now();
-            const timeSinceStart = currentTime - gameStartTime;
-            
-            if (timeSinceStart > MIN_TIME_BEFORE_ESCAPE) {
-                balls.forEach(ball => {
-                    ball.canEscape = true;
-                });
-            }
-            
-            balls.forEach(ball => {
-                if (ball.escaped) return;
-                
-                ball.trail.push({ x: ball.x, y: ball.y });
-                if (ball.trail.length > 15) ball.trail.shift();
-                
-                ball.x += ball.vx;
-                ball.y += ball.vy;
-                
-                boundaries.forEach(wall => {
-                    if (wall.y1 === canvas.height - BOX_PADDING && 
-                        ball.x > canvas.width/2 - GAP_WIDTH/2 && 
-                        ball.x < canvas.width/2 + GAP_WIDTH/2) return;
-                    
-                    const closestX = Math.max(wall.x1, Math.min(ball.x, wall.x2));
-                    const closestY = Math.max(wall.y1, Math.min(ball.y, wall.y2));
-                    const dx = ball.x - closestX;
-                    const dy = ball.y - closestY;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < ball.radius) {
-                        playSound(collisionSound);
-                        const nx = dx / distance;
-                        const ny = dy / distance;
-                        const dotProduct = ball.vx * nx + ball.vy * ny;
-                        ball.vx -= 2 * dotProduct * nx;
-                        ball.vy -= 2 * dotProduct * ny;
-                        const overlap = ball.radius - distance;
-                        ball.x += nx * overlap;
-                        ball.y += ny * overlap;
-                    }
-                });
-                
-                for (let i = 0; i < balls.length; i++) {
-                    for (let j = i + 1; j < balls.length; j++) {
-                        const ball1 = balls[i];
-                        const ball2 = balls[j];
-                        
-                        if (ball1.escaped || ball2.escaped) continue;
-                        
-                        const dx = ball2.x - ball1.x;
-                        const dy = ball2.y - ball1.y;
-                        const distance = Math.sqrt(dx * dx + dy * dy);
-                        
-                        if (distance < ball1.radius + ball2.radius) {
-                            playSound(collisionSound);
-                            const nx = dx / distance;
-                            const ny = dy / distance;
-                            
-                            const tx = -ny;
-                            const ty = nx;
-                            
-                            const dpTan1 = ball1.vx * tx + ball1.vy * ty;
-                            const dpTan2 = ball2.vx * tx + ball2.vy * ty;
-                            
-                            const dpNorm1 = ball1.vx * nx + ball1.vy * ny;
-                            const dpNorm2 = ball2.vx * nx + ball2.vy * ny;
-                            
-                            const m1 = dpNorm1;
-                            const m2 = dpNorm2;
-                            
-                            ball1.vx = tx * dpTan1 + nx * m2;
-                            ball1.vy = ty * dpTan1 + ny * m2;
-                            ball2.vx = tx * dpTan2 + nx * m1;
-                            ball2.vy = ty * dpTan2 + ny * m1;
-                            
-                            const overlap = (ball1.radius + ball2.radius - distance) / 2;
-                            ball1.x -= nx * overlap;
-                            ball1.y -= ny * overlap;
-                            ball2.x += nx * overlap;
-                            ball2.y += ny * overlap;
-                        }
-                    }
-                }
-                
-                portals.forEach(portal => {
-                    const currentRadius = portal.minRadius + 
-                        (Math.sin(portal.pulsePhase) * 0.5 + 0.5) * 
-                        (portal.maxRadius - portal.minRadius);
-                    
-                    const dx = ball.x - portal.x;
-                    const dy = ball.y - portal.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < currentRadius + ball.radius) {
-                        const tx = -dy / distance;
-                        const ty = dx / distance;
-                        ball.vx += tx * SPEED_BOOST * Math.sign(portal.rotationSpeed);
-                        ball.vy += ty * SPEED_BOOST * Math.sign(portal.rotationSpeed);
-                        
-                        const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
-                        if (speed > MAX_SPEED) {
-                            ball.vx = ball.vx / speed * MAX_SPEED;
-                            ball.vy = ball.vy / speed * MAX_SPEED;
-                        }
-                    }
-                });
-                
-                if (ball.canEscape && 
-                    ball.y > canvas.height - BOX_PADDING + ball.radius && 
-                    ball.x > canvas.width/2 - GAP_WIDTH/2 && 
-                    ball.x < canvas.width/2 + GAP_WIDTH/2) {
-                    ball.escaped = true;
-                    declareWinner(ball);
-                }
-            });
-            
-            portals.forEach(portal => {
-                portal.rotation += portal.rotationSpeed;
-                portal.pulsePhase += portal.pulseSpeed;
-            });
-        }
-        
-        function drawVortex(portal) {
-            const currentRadius = portal.minRadius + 
-                (Math.sin(portal.pulsePhase) * 0.5 + 0.5) * 
-                (portal.maxRadius - portal.minRadius);
-            
-            ctx.save();
-            ctx.translate(portal.x, portal.y);
-            ctx.rotate(portal.rotation);
-            
-            const spiralCount = 3;
-            const segments = 20;
-            
-            for (let s = 0; s < spiralCount; s++) {
-                const spiralOffset = (s / spiralCount) * Math.PI * 2;
-                ctx.beginPath();
-                for (let i = 0; i <= segments; i++) {
-                    const t = i / segments;
-                    const r = currentRadius * 0.4 * t;
-                    const angle = spiralOffset + t * Math.PI * 4;
-                    const x = Math.cos(angle) * r;
-                    const y = Math.sin(angle) * r;
-                    if (i === 0) ctx.moveTo(x, y);
-                    else ctx.lineTo(x, y);
-                }
-                ctx.strokeStyle = portal.secondaryColor;
-                ctx.lineWidth = 2;
-                ctx.stroke();
-            }
-            ctx.restore();
-        }
-        
-        function createBallGradient(ball) {
-            const gradient = ctx.createRadialGradient(
-                ball.x - ball.radius * 0.3,
-                ball.y - ball.radius * 0.3,
-                0,
-                ball.x,
-                ball.y,
-                ball.radius
-            );
-            
-            // Apply your requested gradient style
-            if (ball.color.name === 'RED') {
-                gradient.addColorStop(0, ball.color.gradient[0]); // Yellow
-                gradient.addColorStop(0.5, ball.color.gradient[1]); // Orange
-                gradient.addColorStop(1, ball.color.gradient[2]); // Red
-            } else if (ball.color.name === 'YELLOW') {
-                gradient.addColorStop(0, ball.color.gradient[0]); // Yellow
-                gradient.addColorStop(0.7, ball.color.gradient[1]); // Gold
-                gradient.addColorStop(1, ball.color.gradient[2]); // Orange
-            } else { // BLUE
-                gradient.addColorStop(0, ball.color.gradient[0]); // Light Blue
-                gradient.addColorStop(0.5, ball.color.gradient[1]); // Blue
-                gradient.addColorStop(1, ball.color.gradient[2]); // Dark Blue
-            }
-            
-            return gradient;
-        }
-        
-        function createCelebration(color) {
-            confetti({
-                particleCount: 150,
-                spread: 90,
-                origin: { y: 0.6 },
-                colors: [color.solid, '#ffffff'],
-                shapes: ['circle', 'square'],
-                scalar: isMobile() ? 0.8 : 1
-            });
-            
-            setTimeout(() => {
-                confetti({
-                    particleCount: 100,
-                    angle: 60,
-                    spread: 70,
-                    origin: { x: 0, y: 0.7 },
-                    colors: [color.solid]
-                });
-                confetti({
-                    particleCount: 100,
-                    angle: 120,
-                    spread: 70,
-                    origin: { x: 1, y: 0.7 },
-                    colors: [color.solid]
-                });
-            }, 300);
-        }
-        
-        function declareWinner(ball) {
-            gameActive = false;
-            promptElement.style.display = 'none';
-            
-            winnerElement.textContent = `${ball.color.name} WINS!`;
-            winnerElement.style.color = ball.color.solid;
-            winnerElement.style.opacity = 1;
-            winnerElement.style.animation = 'winner-pop 0.8s forwards';
-            winnerElement.style.borderColor = ball.color.solid;
-            
-            createCelebration(ball.color);
-            
-            setTimeout(() => {
-                winnerElement.style.opacity = 0;
-                winnerElement.style.animation = '';
-                initGame();
-            }, 4000);
-        }
-        
-        function render() {
-            ctx.fillStyle = '#000000';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
-            ctx.lineWidth = 3;
-            boundaries.forEach(wall => {
-                ctx.beginPath();
-                ctx.moveTo(wall.x1, wall.y1);
-                ctx.lineTo(wall.x2, wall.y2);
-                ctx.stroke();
-            });
-            
-            portals.forEach(portal => {
-                const currentRadius = portal.minRadius + 
-                    (Math.sin(portal.pulsePhase) * 0.5 + 0.5) * 
-                    (portal.maxRadius - portal.minRadius);
-                
-                const gradient = ctx.createRadialGradient(
-                    portal.x, portal.y, currentRadius * 0.7,
-                    portal.x, portal.y, currentRadius * 1.3
-                );
-                gradient.addColorStop(0, portal.color + '00');
-                gradient.addColorStop(0.5, portal.color + '40');
-                gradient.addColorStop(1, portal.color + '00');
-                ctx.fillStyle = gradient;
-                ctx.beginPath();
-                ctx.arc(portal.x, portal.y, currentRadius * 1.3, 0, Math.PI * 2);
-                ctx.fill();
-                
-                ctx.beginPath();
-                ctx.arc(portal.x, portal.y, currentRadius, 0, Math.PI * 2);
-                ctx.strokeStyle = portal.color;
-                ctx.lineWidth = 4;
-                ctx.stroke();
-                
-                ctx.beginPath();
-                ctx.arc(portal.x, portal.y, currentRadius * 0.4, 0, Math.PI * 2);
-                ctx.strokeStyle = portal.secondaryColor;
-                ctx.lineWidth = 2;
-                ctx.stroke();
-                
-                drawVortex(portal);
-            });
-            
-            balls.forEach(ball => {
-                for (let i = 0; i < ball.trail.length; i++) {
-                    const alpha = (i + 1) / ball.trail.length * 0.6;
-                    ctx.beginPath();
-                    ctx.arc(ball.trail[i].x, ball.trail[i].y, ball.radius, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(${hexToRgb(ball.color.solid).r}, ${hexToRgb(ball.color.solid).g}, ${hexToRgb(ball.color.solid).b}, ${alpha})`;
-                    ctx.fill();
-                }
-                
-                const gradient = createBallGradient(ball);
-                ctx.fillStyle = gradient;
-                ctx.beginPath();
-                ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-                ctx.fill();
-                
-                // Add highlight to match your example
-                const highlight = ctx.createRadialGradient(
-                    ball.x - ball.radius * 0.3,
-                    ball.y - ball.radius * 0.3,
-                    ball.radius * 0.1,
-                    ball.x - ball.radius * 0.3,
-                    ball.y - ball.radius * 0.3,
-                    ball.radius * 0.4
-                );
-                highlight.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
-                highlight.addColorStop(1, 'rgba(255, 255, 255, 0)');
-                ctx.fillStyle = highlight;
-                ctx.beginPath();
-                ctx.arc(
-                    ball.x - ball.radius * 0.3,
-                    ball.y - ball.radius * 0.3,
-                    ball.radius * 0.4,
-                    0,
-                    Math.PI * 2
-                );
-                ctx.fill();
-            });
-        }
-        
-        function hexToRgb(hex) {
-            const r = parseInt(hex.slice(1, 3), 16);
-            const g = parseInt(hex.slice(3, 5), 16);
-            const b = parseInt(hex.slice(5, 7), 16);
-            return { r, g, b };
-        }
-        
-        function gameLoop() {
-            update();
-            render();
-            animationId = requestAnimationFrame(gameLoop);
-        }
-        
-        startButton.addEventListener('click', () => {
-            startButton.style.transform = 'translate(-50%, -50%) scale(0.9)';
-            setTimeout(() => {
-                startButton.style.transform = 'translate(-50%, -50%) scale(1)';
+            // Random emergency flash
+            if(Math.random() > 0.7) {
+                document.body.style.backgroundColor = 'white';
                 setTimeout(() => {
-                    startCountdown();
-                }, 200);
-            }, 100);
-        });
-        
-        window.addEventListener('resize', () => {
-            resizeGame();
-            if (gameActive) {
-                cancelAnimationFrame(animationId);
-                initGame();
-                gameLoop();
+                    document.body.style.backgroundColor = 'black';
+                }, 50);
             }
-        });
+            
+        }, DURATION);
         
-        // Initialize game
-        resizeGame();
+        // Auto-stop after 15 seconds (perfect reel length)
+        setTimeout(() => {
+            clearInterval(interval);
+            // Final flash
+            document.body.style.backgroundColor = 'white';
+            setTimeout(() => {
+                document.body.style.backgroundColor = 'black';
+            }, 200);
+        }, 15000);
     </script>
 </body>
 </html>
