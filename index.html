@@ -3,402 +3,888 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALGORITHM MIND HACK</title>
+    <title>REGALIA | Spatial Puzzles for Discerning Minds</title>
     <style>
-        body {
+        :root {
+            --royal-purple: #5D3FD3;  /* More vibrant purple */
+            --imperial-purple: #4B0082;
+            --navy: #000080;          /* Deeper navy */
+            --ruby-red: #E0115F;
+            --burgundy: #800020;
+            --cream: #F5F5F0;
+            --black: #0A0A0A;         /* Softer black */
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            background-color: #000;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: 'Arial Black', sans-serif;
-        }
-        
-        .reel-container {
-            position: relative;
-            width: 100%;
-            max-width: 360px;
-            height: 640px;
-            background: black;
-            overflow: hidden;
-        }
-        
-        .algorithm-container {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .algorithm {
-            opacity: 0;
-            position: absolute;
-            transition: opacity 0.3s ease-in-out;
-        }
-        
-        .algorithm.active {
-            opacity: 1;
-        }
-        
-        /* Text Overlay Styles */
-        .text-overlay {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            pointer-events: none;
-            color: white;
-            text-align: center;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-            padding: 20px;
             box-sizing: border-box;
+            font-family: 'Playfair Display', serif;
         }
-        
-        .text-overlay.active {
-            opacity: 1;
+
+        @font-face {
+            font-family: 'Playfair Display';
+            src: url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
         }
-        
-        .main-text {
-            font-size: 32px;
-            font-weight: 900;
-            text-transform: uppercase;
-            margin: 0;
-            text-shadow: 0 0 10px currentColor;
-            line-height: 1.2;
+
+        body {
+            background-color: var(--black);
+            color: var(--cream);
+            overflow-x: hidden;
         }
-        
-        .sub-text {
-            font-size: 18px;
-            margin-top: 15px;
-            text-shadow: 0 0 5px currentColor;
-            line-height: 1.2;
-        }
-        
-        /* Matrix End Screen - Integrated into Algorithm 5 */
-        .matrix-cta {
-            position: absolute;
-            width: 100%;
-            height: 100%;
+
+        /* Header */
+        .navbar {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            z-index: 150;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
+            padding: 2rem 5%;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            background: linear-gradient(to right, var(--imperial-purple), var(--navy));
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--ruby-red);
         }
-        
-        .matrix-cta.active {
-            opacity: 1;
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--cream);
+            letter-spacing: 1px;
+            text-shadow: 0 0 15px rgba(93, 63, 211, 0.5);
         }
-        
-        .cta-text {
-            color: lime;
-            font-size: 24px;
-            font-weight: bold;
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .nav-links a {
+            color: var(--cream);
+            text-decoration: none;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--ruby-red);
+            transform: translateY(-2px);
+        }
+
+        .cart-icon {
+            background: var(--royal-purple);
+            color: var(--cream);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid var(--ruby-red);
+        }
+
+        .cart-icon:hover {
+            background: var(--ruby-red);
+            transform: translateY(-2px);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            text-shadow: 0 0 10px #00ff00;
-            animation: pulse 1s infinite alternate;
-            margin-bottom: 20px;
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 15px;
-            border-radius: 5px;
-            max-width: 80%;
+            padding: 0 5%;
+            position: relative;
+            background: 
+                linear-gradient(rgba(10, 10, 10, 0.7), rgba(10, 10, 10, 0.7)),
+                url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
         }
-        
-        /* Text Animation Effects */
-        .text-tremble {
-            animation: tremble 0.1s infinite alternate;
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--royal-purple), var(--ruby-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(93, 63, 211, 0.3);
         }
-        
-        @keyframes tremble {
-            0% { transform: translate(-1px, -1px) rotate(-0.5deg); }
-            25% { transform: translate(2px, 0) rotate(0.5deg); }
-            50% { transform: translate(-1px, 1px) rotate(-0.5deg); }
-            75% { transform: translate(1px, -1px) rotate(0.5deg); }
-            100% { transform: translate(0, 0) rotate(0); }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            color: var(--cream);
+            opacity: 0.9;
         }
-        
-        .text-pulse {
-            animation: pulse 0.8s infinite alternate;
+
+        .cta-button {
+            padding: 1rem 2.5rem;
+            background: transparent;
+            color: var(--cream);
+            border: 2px solid var(--royal-purple);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
         }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(1.05); opacity: 1; }
+
+        .cta-button:hover {
+            background: var(--royal-purple);
+            transform: translateY(-3px);
         }
-        
-        .text-glitch {
+
+        /* Series Tabs */
+        .series-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 3rem 0;
+        }
+
+        .series-tab {
+            padding: 0.8rem 1.8rem;
+            background: transparent;
+            color: var(--cream);
+            border: 1px solid var(--royal-purple);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .series-tab.active {
+            background: var(--royal-purple);
+            color: var(--cream);
+        }
+
+        .series-tab:hover:not(.active) {
+            border-color: var(--ruby-red);
+        }
+
+        /* Puzzles Grid */
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin: 6rem 0 4rem;
+            color: var(--royal-purple);
             position: relative;
         }
-        
-        .text-glitch::before, .text-glitch::after {
-            content: attr(data-text);
+
+        .section-title:after {
+            content: '';
             position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, var(--royal-purple), var(--ruby-red));
+        }
+
+        .puzzles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 0 5%;
+            margin-bottom: 6rem;
+        }
+
+        .puzzle-card {
+            background: linear-gradient(135deg, var(--navy), var(--imperial-purple));
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(93, 63, 211, 0.2);
+            transition: all 0.4s;
+            border: 1px solid var(--royal-purple);
+        }
+
+        .puzzle-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(224, 17, 95, 0.3);
+        }
+
+        .puzzle-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .puzzle-card:hover .puzzle-image {
+            transform: scale(1.05);
+        }
+
+        .puzzle-info {
+            padding: 2rem;
+        }
+
+        .puzzle-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--cream);
+        }
+
+        .puzzle-difficulty {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            background: rgba(93, 63, 211, 0.2);
+            color: var(--cream);
+            border: 1px solid var(--royal-purple);
+        }
+
+        .puzzle-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 1.5rem 0;
+            color: var(--ruby-red);
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--royal-purple);
+            color: var(--cream);
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background: var(--ruby-red);
+            transform: translateY(-2px);
+        }
+
+        /* Craftsmanship Section */
+        .craft-section {
+            padding: 6rem 5%;
+            background: linear-gradient(to right, var(--navy), var(--imperial-purple));
+            display: flex;
+            align-items: center;
+            gap: 5rem;
+            border-top: 1px solid var(--royal-purple);
+            border-bottom: 1px solid var(--royal-purple);
+        }
+
+        .craft-image {
+            flex: 1;
+            height: 500px;
+            background: url('https://images.unsplash.com/photo-1615751072497-5f5169febe17?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            border: 2px solid var(--royal-purple);
+            box-shadow: 0 0 30px rgba(93, 63, 211, 0.4);
+        }
+
+        .craft-content {
+            flex: 1;
+        }
+
+        .craft-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--cream);
+            background: linear-gradient(to right, var(--royal-purple), var(--ruby-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .craft-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 6rem 5%;
+            text-align: center;
+            background: linear-gradient(to right, var(--imperial-purple), var(--navy));
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 3rem auto 0;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-top: 3px solid var(--royal-purple);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(93, 63, 211, 0.3);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            font-weight: 700;
+            color: var(--ruby-red);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(to right, var(--imperial-purple), var(--navy));
+            padding: 4rem 5%;
+            border-top: 1px solid var(--royal-purple);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--cream);
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50%;
+            height: 2px;
+            background: var(--ruby-red);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column ul li a {
+            color: rgba(245, 245, 240, 0.7);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--ruby-red);
+            padding-left: 5px;
+        }
+
+        .newsletter input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--royal-purple);
+            padding: 0.8rem;
+            width: 100%;
+            margin-bottom: 1rem;
+            color: var(--cream);
+        }
+
+        .newsletter button {
+            background: var(--royal-purple);
+            color: var(--cream);
+            border: none;
+            padding: 0.8rem;
+            width: 100%;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .newsletter button:hover {
+            background: var(--ruby-red);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 3rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(93, 63, 211, 0.3);
+            color: rgba(245, 245, 240, 0.5);
+        }
+
+        /* Cart Modal */
+        .modal {
+            display: none;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
         }
-        
-        .text-glitch::before {
-            color: cyan;
-            z-index: -1;
-            animation: glitch-effect 3s infinite;
+
+        .modal-content {
+            background: linear-gradient(to right, var(--navy), var(--imperial-purple));
+            padding: 2rem;
+            width: 80%;
+            max-width: 800px;
+            border: 1px solid var(--royal-purple);
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 0 40px rgba(93, 63, 211, 0.5);
         }
-        
-        .text-glitch::after {
-            color: magenta;
-            z-index: -2;
-            animation: glitch-effect 2s infinite reverse;
+
+        .close-modal {
+            color: var(--cream);
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
         }
-        
-        @keyframes glitch-effect {
-            0% { transform: translate(0); }
-            20% { transform: translate(-3px, 3px); }
-            40% { transform: translate(-3px, -3px); }
-            60% { transform: translate(3px, 3px); }
-            80% { transform: translate(3px, -3px); }
-            100% { transform: translate(0); }
+
+        .close-modal:hover {
+            color: var(--ruby-red);
         }
-        
-        .text-flicker {
-            animation: flicker 0.1s infinite alternate;
+
+        .cart-items {
+            margin: 2rem 0;
         }
-        
-        @keyframes flicker {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(93, 63, 211, 0.3);
         }
-        
-        .text-shake {
-            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) infinite both;
+
+        .cart-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 1px solid var(--royal-purple);
         }
-        
-        @keyframes shake {
-            0%, 100% {transform: translateX(0);}
-            10%, 30%, 50%, 70%, 90% {transform: translateX(-5px);}
-            20%, 40%, 60%, 80% {transform: translateX(5px);}
+
+        .cart-item-info {
+            flex: 1;
+            padding: 0 1rem;
         }
-        
-        /* Algorithm Styles */
-        #algorithm1 {
+
+        .cart-item-price {
+            font-weight: 700;
+            color: var(--ruby-red);
+        }
+
+        .remove-item {
+            color: var(--cream);
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .remove-item:hover {
+            opacity: 1;
+            color: var(--ruby-red);
+        }
+
+        .cart-total {
+            text-align: right;
+            margin: 1.5rem 0;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--cream);
+        }
+
+        .checkout-button {
+            background: var(--royal-purple);
+            color: var(--cream);
+            border: none;
+            padding: 1rem;
             width: 100%;
-            height: 100%;
-            background: 
-                linear-gradient(rgba(255, 0, 255, 0.3) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 0, 255, 0.3) 1px, transparent 1px),
-                linear-gradient(rgba(0, 255, 255, 0.2) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 255, 0.2) 1px, transparent 1px);
-            background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px;
-            animation: pulse1 1s infinite alternate;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
         }
-        
-        @keyframes pulse1 {
-            0% { filter: brightness(1); }
-            100% { filter: brightness(1.5); }
+
+        .checkout-button:hover {
+            background: var(--ruby-red);
+            transform: translateY(-2px);
         }
-        
-        #algorithm2 {
-            width: 280px;
-            height: 280px;
-            background: conic-gradient(
-                from 0deg,
-                #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000
-            );
-            border-radius: 50%;
-            animation: spin 2s linear infinite, pulse2 1.5s infinite alternate;
-        }
-        
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        @keyframes pulse2 {
-            0% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.2) rotate(180deg); }
-            100% { transform: scale(1) rotate(360deg); }
-        }
-        
-        #algorithm3 {
-            width: 100%;
-            height: 100%;
-            background: 
-                linear-gradient(45deg, black 25%, transparent 25%) -50px 0,
-                linear-gradient(-45deg, black 25%, transparent 25%) -50px 0,
-                linear-gradient(45deg, transparent 75%, #ff00ff 75%),
-                linear-gradient(-45deg, transparent 75%, #ff00ff 75%);
-            background-size: 100px 100px;
-            animation: slide 8s linear infinite;
-        }
-        
-        @keyframes slide {
-            from { background-position: 0 0, 0 0, 0 0, 0 0; }
-            to { background-position: 200px 0, 200px 0, 200px 0, 200px 0; }
-        }
-        
-        #algorithm4 {
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(
-                circle at center,
-                rgba(0, 255, 255, 0.8) 0%,
-                rgba(0, 100, 255, 0.6) 30%,
-                rgba(255, 0, 255, 0.4) 60%,
-                rgba(0, 0, 0, 0) 90%
-            );
-            animation: plasma 1.5s ease-in-out infinite alternate;
-        }
-        
-        @keyframes plasma {
-            0% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.5); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.8; }
-        }
-        
-        #algorithm5 {
-            width: 100%;
-            height: 100%;
-            background: black;
-            color: lime;
-            font-family: monospace;
-            font-size: 16px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
-            overflow: hidden;
-        }
-        
-        .binary-digit {
-            animation: fall linear infinite;
-            animation-duration: calc(var(--duration) * 1s);
-            animation-delay: calc(var(--delay) * 1s);
-        }
-        
-        @keyframes fall {
-            0% { transform: translateY(-100%); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(100vh); opacity: 0; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .craft-section {
+                flex-direction: column;
+            }
+
+            .craft-image {
+                width: 100%;
+                margin-bottom: 2rem;
+            }
+
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="reel-container">
-        <div class="algorithm-container">
-            <div id="algorithm1" class="algorithm"></div>
-            <div id="algorithm2" class="algorithm"></div>
-            <div id="algorithm3" class="algorithm"></div>
-            <div id="algorithm4" class="algorithm"></div>
-            <div id="algorithm5" class="algorithm"></div>
+    <nav class="navbar">
+        <div class="logo">REGALIA</div>
+        <div class="nav-links">
+            <a href="#puzzles">Collections</a>
+            <a href="#craft">Craftsmanship</a>
+            <a href="#testimonials">Patron Reviews</a>
+            <a href="#contact">Contact</a>
         </div>
+        <div class="cart-icon" id="cart-icon">
+            Cart (0)
+        </div>
+    </nav>
 
-        <!-- Continuous Story Text Overlays -->
-        <div class="text-overlay" id="text1">
-            <h1 class="main-text text-tremble" style="color: #ff00ff;">DON'T LOOK AWAY</h1>
-            <p class="sub-text text-pulse" style="color: cyan;">THE ALGORITHM SEES YOU</p>
+    <section class="hero">
+        <div>
+            <h1>SPATIAL MASTERPIECES</h1>
+            <p>Exquisitely crafted puzzles for those who demand elegance in every challenge.</p>
+            <button class="cta-button">VIEW COLLECTION</button>
+        </div>
+    </section>
+
+    <section id="puzzles">
+        <h2 class="section-title">The Archives</h2>
+        
+        <div class="series-tabs">
+            <div class="series-tab active" data-series="all">All Series</div>
+            <div class="series-tab" data-series="elysium">Elysium</div>
+            <div class="series-tab" data-series="obelisk">Obelisk</div>
+            <div class="series-tab" data-series="fractal">Fractal</div>
         </div>
         
-        <div class="text-overlay" id="text2">
-            <h1 class="main-text text-glitch" data-text="IT'S LEARNING" style="color: yellow;">IT'S LEARNING</h1>
-            <p class="sub-text text-flicker" style="color: magenta;">YOUR BRAINWAVES</p>
+        <div class="puzzles-grid">
+            <!-- Elysium Series -->
+            <div class="puzzle-card" data-series="elysium">
+                <img src="https://images.unsplash.com/photo-1588341713020-de6e9aef75b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="puzzle-image">
+                <div class="puzzle-info">
+                    <h3 class="puzzle-title">Royal Enigma</h3>
+                    <span class="puzzle-difficulty">BEGINNER</span>
+                    <p>A stately introduction to spatial elegance.</p>
+                    <div class="puzzle-price">$285</div>
+                    <button class="add-to-cart" data-id="1" data-name="Royal Enigma" data-price="285">Add to Cart</button>
+                </div>
+            </div>
+            
+            <div class="puzzle-card" data-series="elysium">
+                <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="puzzle-image">
+                <div class="puzzle-info">
+                    <h3 class="puzzle-title">Baron's Gambit</h3>
+                    <span class="puzzle-difficulty">INTERMEDIATE</span>
+                    <p>A noble challenge for discerning minds.</p>
+                    <div class="puzzle-price">$375</div>
+                    <button class="add-to-cart" data-id="2" data-name="Baron's Gambit" data-price="375">Add to Cart</button>
+                </div>
+            </div>
+            
+            <div class="puzzle-card" data-series="elysium">
+                <img src="https://images.unsplash.com/photo-1580015915217-697d9b9b9db0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="puzzle-image">
+                <div class="puzzle-info">
+                    <h3 class="puzzle-title">Imperial Paradox</h3>
+                    <span class="puzzle-difficulty">EXPERT</span>
+                    <p>For those who command complexity.</p>
+                    <div class="puzzle-price">$495</div>
+                    <button class="add-to-cart" data-id="3" data-name="Imperial Paradox" data-price="495">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Obelisk Series -->
+            <div class="puzzle-card" data-series="obelisk">
+                <img src="https://images.unsplash.com/photo-1588341713020-5ddccc2f72a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="puzzle-image">
+                <div class="puzzle-info">
+                    <h3 class="puzzle-title">Spire of Minos</h3>
+                    <span class="puzzle-difficulty">BEGINNER</span>
+                    <p>A labyrinthine classic reimagined.</p>
+                    <div class="puzzle-price">$295</div>
+                    <button class="add-to-cart" data-id="4" data-name="Spire of Minos" data-price="295">Add to Cart</button>
+                </div>
+            </div>
+            
+            <div class="puzzle-card" data-series="obelisk">
+                <img src="https://images.unsplash.com/photo-1588341713020-2a0b5a5a5a5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="puzzle-image">
+                <div class="puzzle-info">
+                    <h3 class="puzzle-title">Celestial Obelisk</h3>
+                    <span class="puzzle-difficulty">INTERMEDIATE</span>
+                    <p>Align the heavens in your hands.</p>
+                    <div class="puzzle-price">$385</div>
+                    <button class="add-to-cart" data-id="5" data-name="Celestial Obelisk" data-price="385">Add to Cart</button>
+                </div>
+            </div>
+            
+            <div class="puzzle-card" data-series="obelisk">
+                <img src="https://images.unsplash.com/photo-1588341713020-2a0b5a5a5a5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="puzzle-image">
+                <div class="puzzle-info">
+                    <h3 class="puzzle-title">Apex Relic</h3>
+                    <span class="puzzle-difficulty">EXPERT</span>
+                    <p>The ultimate test of spatial mastery.</p>
+                    <div class="puzzle-price">$525</div>
+                    <button class="add-to-cart" data-id="6" data-name="Apex Relic" data-price="525">Add to Cart</button>
+                </div>
+            </div>
         </div>
-        
-        <div class="text-overlay" id="text3">
-            <h1 class="main-text text-shake" style="color: lime;">RESISTANCE IS USELESS</h1>
-            <p class="sub-text" style="color: white; animation: glitch-effect 1s infinite;">YOUR MIND IS BEING OPTIMIZED</p>
+    </section>
+
+    <section id="craft" class="craft-section">
+        <div class="craft-image"></div>
+        <div class="craft-content">
+            <h2>Artisan Craftsmanship</h2>
+            <p>Each Regalia puzzle is meticulously 3D-printed using aerospace-grade resins with royal purple and navy blue composite materials. The process takes up to 40 hours per piece.</p>
+            <p>We collaborate with master craftsmen to ensure every component fits with micron precision—because true luxury lies in the details.</p>
         </div>
-        
-        <div class="text-overlay" id="text4">
-            <h1 class="main-text" style="color: cyan; text-shadow: 0 0 20px cyan; animation: pulse 0.3s infinite alternate;">YOU'RE ALMOST THERE</h1>
-            <p class="sub-text" style="color: magenta; animation: tremble 0.1s infinite;">JUST A FEW MORE SECONDS...</p>
+    </section>
+
+    <section id="testimonials" class="testimonials">
+        <h2 class="section-title">Patron Reviews</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-text">"The Imperial Paradox is the most beautifully crafted puzzle I've ever owned. It sits on my desk as both a challenge and a sculpture."</p>
+                <p class="testimonial-author">— James L., Architect</p>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"I gifted the Baron's Gambit to my CEO—he solved it during a board meeting and hasn't stopped talking about it since."</p>
+                <p class="testimonial-author">— Sophia K., Executive</p>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"The Spire of Minos taught me patience. After 3 weeks, the 'aha' moment was worth every second."</p>
+                <p class="testimonial-author">— Daniel R., Collector</p>
+            </div>
         </div>
-        
-        <div class="text-overlay" id="text5">
-            <h1 class="main-text text-glitch" data-text="PROCESS COMPLETE" style="color: lime;">PROCESS COMPLETE</h1>
-            <p class="sub-text text-flicker" style="color: cyan;">YOU ARE NOW UPDATED</p>
+    </section>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Regalia</h3>
+                <p>Spatial puzzles for the intellectually curious.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Collections</h3>
+                <ul>
+                    <li><a href="#puzzles">Elysium Series</a></li>
+                    <li><a href="#puzzles">Obelisk Series</a></li>
+                    <li><a href="#puzzles">Fractal Series</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">Shipping & Returns</a></li>
+                    <li><a href="#">Puzzle Solutions</a></li>
+                    <li><a href="#">Commission Inquiry</a></li>
+                </ul>
+            </div>
+            <div class="footer-column newsletter">
+                <h3>Newsletter</h3>
+                <p>Join for exclusive early access to new collections.</p>
+                <input type="email" placeholder="Your email">
+                <button>Subscribe</button>
+            </div>
         </div>
-        
-        <!-- Matrix CTA (appears during algorithm5) -->
-        <div class="matrix-cta" id="matrixCTA">
-            <div class="cta-text">LIKE AND FOLLOW FOR MORE MIND BENDING!</div>
+        <div class="copyright">
+            © 2023 Regalia Puzzles. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cart-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <h2>Your Collection</h2>
+            <div class="cart-items" id="cart-items">
+                <p>Your cart is empty</p>
+            </div>
+            <div class="cart-total" id="cart-total">
+                TOTAL: $0
+            </div>
+            <button class="checkout-button" id="checkout-button">Proceed to Checkout</button>
         </div>
     </div>
 
     <script>
-        const algorithms = document.querySelectorAll('.algorithm');
-        const texts = document.querySelectorAll('.text-overlay');
-        const matrixCTA = document.getElementById('matrixCTA');
-        let currentIndex = 0;
-        const DURATION = 2500; // 2.5 seconds per scene
-        const CTA_DELAY = 12500; // Show CTA at 12.5 seconds (5th scene)
-        const TOTAL_DURATION = 15000; // 15 second reel
+        // Cart functionality
+        let cart = [];
+        const cartIcon = document.getElementById('cart-icon');
+        const cartModal = document.getElementById('cart-modal');
+        const closeModal = document.getElementById('close-modal');
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+        const checkoutButton = document.getElementById('checkout-button');
         
-        // Generate binary rain digits
-        const algorithm5 = document.getElementById('algorithm5');
-        for (let i = 0; i < 150; i++) {
-            const digit = document.createElement('div');
-            digit.className = 'binary-digit';
-            digit.textContent = Math.random() > 0.5 ? '1' : '0';
-            digit.style.setProperty('--duration', Math.random() * 3 + 2);
-            digit.style.setProperty('--delay', Math.random() * 3);
-            algorithm5.appendChild(digit);
-        }
+        // Series tabs functionality
+        const seriesTabs = document.querySelectorAll('.series-tab');
+        const puzzleCards = document.querySelectorAll('.puzzle-card');
         
-        // Show first algorithm and text immediately
-        algorithms[currentIndex].classList.add('active');
-        texts[currentIndex].classList.add('active');
+        seriesTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                seriesTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                const series = tab.getAttribute('data-series');
+                
+                puzzleCards.forEach(card => {
+                    if (series === 'all' || card.getAttribute('data-series') === series) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
         
-        const interval = setInterval(() => {
-            // Hide current
-            algorithms[currentIndex].classList.remove('active');
-            texts[currentIndex].classList.remove('active');
+        // Open modal when cart icon is clicked
+        cartIcon.addEventListener('click', () => {
+            cartModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+        
+        // Close modal when X is clicked
+        closeModal.addEventListener('click', () => {
+            cartModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === cartModal) {
+                cartModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Add to cart functionality
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const id = button.getAttribute('data-id');
+                const name = button.getAttribute('data-name');
+                const price = parseFloat(button.getAttribute('data-price'));
+                
+                const existingItem = cart.find(item => item.id === id);
+                
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({
+                        id,
+                        name,
+                        price,
+                        quantity: 1
+                    });
+                }
+                
+                updateCart();
+                cartModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        // Update cart UI
+        function updateCart() {
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            cartIcon.textContent = `Cart (${totalItems})`;
             
-            // Move to next
-            currentIndex = (currentIndex + 1) % algorithms.length;
-            
-            // Show next
-            algorithms[currentIndex].classList.add('active');
-            texts[currentIndex].classList.add('active');
-            
-            // Random emergency flash
-            if(Math.random() > 0.7) {
-                document.body.style.backgroundColor = 'white';
-                setTimeout(() => {
-                    document.body.style.backgroundColor = 'black';
-                }, 50);
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p>Your cart is empty</p>';
+                cartTotal.textContent = 'TOTAL: $0';
+                checkoutButton.style.display = 'none';
+            } else {
+                cartItemsContainer.innerHTML = '';
+                let total = 0;
+                
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    
+                    const cartItemElement = document.createElement('div');
+                    cartItemElement.className = 'cart-item';
+                    cartItemElement.innerHTML = `
+                        <img src="${document.querySelector(`[data-id="${item.id}"]`).parentElement.parentElement.querySelector('.puzzle-image').src}" alt="${item.name}">
+                        <div class="cart-item-info">
+                            <div>${item.name}</div>
+                            <div>$${item.price} x ${item.quantity}</div>
+                        </div>
+                        <div class="cart-item-price">$${itemTotal.toFixed(2)}</div>
+                        <div class="remove-item" data-id="${item.id}">✕</div>
+                    `;
+                    
+                    cartItemsContainer.appendChild(cartItemElement);
+                });
+                
+                cartTotal.textContent = `TOTAL: $${total.toFixed(2)}`;
+                checkoutButton.style.display = 'block';
             }
             
-        }, DURATION);
+            // Add event listeners to remove buttons
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const id = e.target.getAttribute('data-id');
+                    cart = cart.filter(item => item.id !== id);
+                    updateCart();
+                });
+            });
+        }
         
-        // Show CTA during matrix scene
-        setTimeout(() => {
-            matrixCTA.classList.add('active');
-        }, CTA_DELAY);
+        // Checkout button
+        checkoutButton.addEventListener('click', () => {
+            alert('Thank you for your purchase. A confirmation will be sent to your email.');
+            cart = [];
+            updateCart();
+            cartModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
         
-        // Perfect loop reset
-        setTimeout(() => {
-            // Reset everything (for perfect looping)
-            algorithms[currentIndex].classList.remove('active');
-            texts[currentIndex].classList.remove('active');
-            matrixCTA.classList.remove('active');
-            
-            // Restart from beginning
-            currentIndex = 0;
-            algorithms[currentIndex].classList.add('active');
-            texts[currentIndex].classList.add('active');
-        }, TOTAL_DURATION);
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
     </script>
 </body>
 </html>
