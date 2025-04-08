@@ -3,888 +3,1307 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REGALIA | Spatial Puzzles for Discerning Minds</title>
+    <title>MindBend Spatial Puzzles</title>
     <style>
         :root {
-            --royal-purple: #5D3FD3;  /* More vibrant purple */
-            --imperial-purple: #4B0082;
-            --navy: #000080;          /* Deeper navy */
-            --ruby-red: #E0115F;
-            --burgundy: #800020;
-            --cream: #F5F5F0;
-            --black: #0A0A0A;         /* Softer black */
+            --dark-bg: #0a0a1a;
+            --dark-blue: #12122b;
+            --purple: #6a0dad;
+            --light-purple: #9b59b6;
+            --text: #e0e0ff;
+            --highlight: #bb86fc;
+            --emerald: linear-gradient(90deg, #2ecc71, #27ae60);
+            --gold: linear-gradient(90deg, #f1c40f, #f39c12);
+            --diamond-blue: linear-gradient(90deg, #3498db, #2980b9);
         }
-
-        * {
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text);
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Playfair Display', serif;
+            line-height: 1.6;
         }
-
-        @font-face {
-            font-family: 'Playfair Display';
-            src: url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
-        }
-
-        body {
-            background-color: var(--black);
-            color: var(--cream);
-            overflow-x: hidden;
-        }
-
-        /* Header */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 2rem 5%;
-            position: fixed;
-            width: 100%;
+        
+        header {
+            background: linear-gradient(135deg, var(--dark-blue), var(--purple));
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
             z-index: 100;
-            background: linear-gradient(to right, var(--imperial-purple), var(--navy));
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--ruby-red);
         }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--cream);
-            letter-spacing: 1px;
-            text-shadow: 0 0 15px rgba(93, 63, 211, 0.5);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 3rem;
-        }
-
-        .nav-links a {
-            color: var(--cream);
-            text-decoration: none;
-            font-size: 1rem;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--ruby-red);
-            transform: translateY(-2px);
-        }
-
-        .cart-icon {
-            background: var(--royal-purple);
-            color: var(--cream);
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 1px solid var(--ruby-red);
-        }
-
-        .cart-icon:hover {
-            background: var(--ruby-red);
-            transform: translateY(-2px);
-        }
-
-        /* Hero */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 0 5%;
-            position: relative;
-            background: 
-                linear-gradient(rgba(10, 10, 10, 0.7), rgba(10, 10, 10, 0.7)),
-                url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .hero h1 {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(to right, var(--royal-purple), var(--ruby-red));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(93, 63, 211, 0.3);
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto 3rem;
-            color: var(--cream);
-            opacity: 0.9;
-        }
-
-        .cta-button {
-            padding: 1rem 2.5rem;
-            background: transparent;
-            color: var(--cream);
-            border: 2px solid var(--royal-purple);
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .cta-button:hover {
-            background: var(--royal-purple);
-            transform: translateY(-3px);
-        }
-
-        /* Series Tabs */
-        .series-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin: 3rem 0;
-        }
-
-        .series-tab {
-            padding: 0.8rem 1.8rem;
-            background: transparent;
-            color: var(--cream);
-            border: 1px solid var(--royal-purple);
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .series-tab.active {
-            background: var(--royal-purple);
-            color: var(--cream);
-        }
-
-        .series-tab:hover:not(.active) {
-            border-color: var(--ruby-red);
-        }
-
-        /* Puzzles Grid */
-        .section-title {
-            font-size: 2.5rem;
-            text-align: center;
-            margin: 6rem 0 4rem;
-            color: var(--royal-purple);
-            position: relative;
-        }
-
-        .section-title:after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background: linear-gradient(to right, var(--royal-purple), var(--ruby-red));
-        }
-
-        .puzzles-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            padding: 0 5%;
-            margin-bottom: 6rem;
-        }
-
-        .puzzle-card {
-            background: linear-gradient(135deg, var(--navy), var(--imperial-purple));
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(93, 63, 211, 0.2);
-            transition: all 0.4s;
-            border: 1px solid var(--royal-purple);
-        }
-
-        .puzzle-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(224, 17, 95, 0.3);
-        }
-
-        .puzzle-image {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-
-        .puzzle-card:hover .puzzle-image {
-            transform: scale(1.05);
-        }
-
-        .puzzle-info {
-            padding: 2rem;
-        }
-
-        .puzzle-title {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--cream);
-        }
-
-        .puzzle-difficulty {
-            display: inline-block;
-            padding: 0.3rem 1rem;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            background: rgba(93, 63, 211, 0.2);
-            color: var(--cream);
-            border: 1px solid var(--royal-purple);
-        }
-
-        .puzzle-price {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin: 1.5rem 0;
-            color: var(--ruby-red);
-        }
-
-        .add-to-cart {
-            width: 100%;
-            padding: 0.8rem;
-            background: var(--royal-purple);
-            color: var(--cream);
-            border: none;
-            border-radius: 5px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .add-to-cart:hover {
-            background: var(--ruby-red);
-            transform: translateY(-2px);
-        }
-
-        /* Craftsmanship Section */
-        .craft-section {
-            padding: 6rem 5%;
-            background: linear-gradient(to right, var(--navy), var(--imperial-purple));
-            display: flex;
-            align-items: center;
-            gap: 5rem;
-            border-top: 1px solid var(--royal-purple);
-            border-bottom: 1px solid var(--royal-purple);
-        }
-
-        .craft-image {
-            flex: 1;
-            height: 500px;
-            background: url('https://images.unsplash.com/photo-1615751072497-5f5169febe17?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-            border: 2px solid var(--royal-purple);
-            box-shadow: 0 0 30px rgba(93, 63, 211, 0.4);
-        }
-
-        .craft-content {
-            flex: 1;
-        }
-
-        .craft-content h2 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            color: var(--cream);
-            background: linear-gradient(to right, var(--royal-purple), var(--ruby-red));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .craft-content p {
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-            opacity: 0.9;
-        }
-
-        /* Testimonials */
-        .testimonials {
-            padding: 6rem 5%;
-            text-align: center;
-            background: linear-gradient(to right, var(--imperial-purple), var(--navy));
-        }
-
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 3rem auto 0;
-        }
-
-        .testimonial-card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 2rem;
-            border-top: 3px solid var(--royal-purple);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s;
-        }
-
-        .testimonial-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(93, 63, 211, 0.3);
-        }
-
-        .testimonial-text {
-            font-style: italic;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        .testimonial-author {
-            font-weight: 700;
-            color: var(--ruby-red);
-        }
-
-        /* Footer */
-        footer {
-            background: linear-gradient(to right, var(--imperial-purple), var(--navy));
-            padding: 4rem 5%;
-            border-top: 1px solid var(--royal-purple);
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 3rem;
+        
+        .container {
+            width: 90%;
             max-width: 1200px;
             margin: 0 auto;
         }
-
-        .footer-column h3 {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-            color: var(--cream);
-            position: relative;
-            display: inline-block;
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-
-        .footer-column h3:after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 50%;
-            height: 2px;
-            background: var(--ruby-red);
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
         }
-
-        .footer-column ul {
+        
+        .logo span {
+            color: var(--highlight);
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
             list-style: none;
         }
-
-        .footer-column ul li {
-            margin-bottom: 0.8rem;
+        
+        .nav-links li {
+            margin-left: 1.5rem;
         }
-
-        .footer-column ul li a {
-            color: rgba(245, 245, 240, 0.7);
+        
+        .nav-links a {
+            color: var(--text);
             text-decoration: none;
-            transition: all 0.3s;
+            font-weight: 500;
+            transition: color 0.3s;
         }
-
-        .footer-column ul li a:hover {
-            color: var(--ruby-red);
-            padding-left: 5px;
+        
+        .nav-links a:hover {
+            color: var(--highlight);
         }
-
-        .newsletter input {
+        
+        .cart-btn {
+            display: flex;
+            align-items: center;
             background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--royal-purple);
-            padding: 0.8rem;
-            width: 100%;
-            margin-bottom: 1rem;
-            color: var(--cream);
-        }
-
-        .newsletter button {
-            background: var(--royal-purple);
-            color: var(--cream);
             border: none;
-            padding: 0.8rem;
-            width: 100%;
-            font-weight: 600;
+            color: var(--text);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
             cursor: pointer;
             transition: all 0.3s;
+            position: relative;
         }
-
-        .newsletter button:hover {
-            background: var(--ruby-red);
+        
+        .cart-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
-
-        .copyright {
-            text-align: center;
-            padding-top: 3rem;
-            margin-top: 3rem;
-            border-top: 1px solid rgba(93, 63, 211, 0.3);
-            color: rgba(245, 245, 240, 0.5);
+        
+        .cart-count {
+            background: var(--highlight);
+            color: var(--dark-bg);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 0.5rem;
         }
-
-        /* Cart Modal */
-        .modal {
-            display: none;
-            position: fixed;
+        
+        .hero {
+            background: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
+            background: rgba(10, 10, 26, 0.7);
         }
-
-        .modal-content {
-            background: linear-gradient(to right, var(--navy), var(--imperial-purple));
-            padding: 2rem;
-            width: 80%;
-            max-width: 800px;
-            border: 1px solid var(--royal-purple);
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: 0 0 40px rgba(93, 63, 211, 0.5);
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
         }
-
-        .close-modal {
-            color: var(--cream);
-            float: right;
-            font-size: 1.5rem;
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--purple);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s;
+            text-decoration: none;
         }
-
-        .close-modal:hover {
-            color: var(--ruby-red);
+        
+        .btn:hover {
+            background: var(--light-purple);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-
+        
+        .benefits {
+            padding: 4rem 0;
+            background-color: var(--dark-blue);
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--purple);
+            transition: transform 0.3s;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .benefit-icon {
+            font-size: 2rem;
+            color: var(--highlight);
+            margin-bottom: 1rem;
+        }
+        
+        .benefit-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+        
+        .series-section {
+            padding: 4rem 0;
+            background-color: var(--dark-bg);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.2rem;
+        }
+        
+        .series-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .series-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+        
+        .series-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--highlight);
+        }
+        
+        .series-image {
+            height: 200px;
+            background-color: #2a2a4a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            font-size: 1.5rem;
+            position: relative;
+        }
+        
+        .series-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .series-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .products-section {
+            display: none;
+            padding: 4rem 0;
+            background-color: var(--dark-blue);
+        }
+        
+        .back-to-series {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--highlight);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .back-to-series:hover {
+            color: var(--light-purple);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .product-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--highlight);
+        }
+        
+        .product-image {
+            height: 200px;
+            background-color: #2a2a4a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            font-size: 1.5rem;
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+        }
+        
+        .product-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-price {
+            font-size: 1.2rem;
+            color: var(--highlight);
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .product-description {
+            margin-bottom: 1.5rem;
+            color: rgba(224, 224, 255, 0.8);
+        }
+        
+        /* Updated Difficulty Badges */
+        .difficulty-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1.2rem;
+            border-radius: 24px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+        }
+        
+        .difficulty-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.2;
+            z-index: 0;
+        }
+        
+        .difficulty-easy {
+            background: var(--emerald);
+        }
+        
+        .difficulty-easy::before {
+            background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20L0 20z' fill='%23ffffff' fill-opacity='0.2'/%3E%3C/svg%3E");
+        }
+        
+        .difficulty-medium {
+            background: var(--gold);
+        }
+        
+        .difficulty-medium::before {
+            background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v20H0z' fill='%23ffffff' fill-opacity='0.2'/%3E%3Ccircle cx='10' cy='10' r='5' fill='%23ffffff' fill-opacity='0.2'/%3E%3C/svg%3E");
+        }
+        
+        .difficulty-hard {
+            background: var(--diamond-blue);
+        }
+        
+        .difficulty-hard::before {
+            background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v20H0z' fill='%23ffffff' fill-opacity='0.2'/%3E%3Cpath d='M5 5h2v2H5zM8 5h2v2H8zM11 5h2v2h-2zM14 5h2v2h-2zM5 8h2v2H5zM14 8h2v2h-2zM5 11h2v2H5zM14 11h2v2h-2zM5 14h2v2H5zM8 14h2v2H8zM11 14h2v2h-2zM14 14h2v2h-2z' fill='%23ffffff' fill-opacity='0.3'/%3E%3C/svg%3E");
+        }
+        
+        .add-to-cart {
+            width: 100%;
+            background: var(--purple);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .add-to-cart:hover {
+            background: var(--light-purple);
+        }
+        
+        /* Optimized Cart Modal */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            background: var(--dark-blue);
+            z-index: 200;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+            overflow-y: auto;
+        }
+        
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .cart-title {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+        
+        .close-cart {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .cart-content {
+            padding: 1.5rem;
+        }
+        
         .cart-items {
-            margin: 2rem 0;
+            margin-bottom: 2rem;
         }
-
+        
         .cart-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1rem 0;
-            border-bottom: 1px solid rgba(93, 63, 211, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        .cart-item img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 5px;
-            border: 1px solid var(--royal-purple);
+        
+        .cart-item:last-child {
+            border-bottom: none;
         }
-
+        
         .cart-item-info {
-            flex: 1;
-            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
-
+        
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            background-color: #2a2a4a;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .cart-item-details h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+        }
+        
         .cart-item-price {
-            font-weight: 700;
-            color: var(--ruby-red);
+            color: var(--highlight);
+            font-size: 0.9rem;
         }
-
-        .remove-item {
-            color: var(--cream);
-            cursor: pointer;
-            opacity: 0.7;
-            transition: opacity 0.3s;
+        
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-
-        .remove-item:hover {
-            opacity: 1;
-            color: var(--ruby-red);
-        }
-
-        .cart-total {
-            text-align: right;
-            margin: 1.5rem 0;
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--cream);
-        }
-
-        .checkout-button {
-            background: var(--royal-purple);
-            color: var(--cream);
+        
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            background: var(--purple);
+            color: white;
             border: none;
-            padding: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+        
+        .quantity-btn:hover {
+            background: var(--light-purple);
+        }
+        
+        .remove-item {
+            background: none;
+            border: none;
+            color: #ff6b6b;
+            cursor: pointer;
+            font-size: 1.2rem;
+            margin-left: 0.5rem;
+        }
+        
+        .cart-summary {
+            background: rgba(18, 18, 43, 0.7);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .summary-total {
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .checkout-form {
+            margin-top: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .form-control {
             width: 100%;
+            padding: 0.7rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            color: white;
+            font-size: 0.9rem;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--highlight);
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--purple);
+            color: white;
+            border: none;
+            border-radius: 8px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            margin-top: 1rem;
         }
-
-        .checkout-button:hover {
-            background: var(--ruby-red);
+        
+        .checkout-btn:hover {
+            background: var(--light-purple);
             transform: translateY(-2px);
         }
-
-        /* Responsive */
+        
+        .express-checkout {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .express-btn {
+            width: 50px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            font-weight: bold;
+        }
+        
+        .express-btn:hover {
+            border-color: var(--highlight);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 2rem 0;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, var(--purple), var(--dark-blue));
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin: 1rem 0;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin: 0 1rem;
+        }
+        
+        .footer-links a {
+            color: var(--text);
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .copyright {
+            margin-top: 1rem;
+            color: rgba(224, 224, 255, 0.7);
+        }
+        
+        /* Responsive styles */
         @media (max-width: 768px) {
-            .navbar {
-                padding: 1.5rem;
-            }
-
-            .nav-links {
+            .nav-links li:not(:last-child) {
                 display: none;
             }
-
+            
             .hero h1 {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
             }
-
-            .craft-section {
-                flex-direction: column;
+            
+            .series-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             }
-
-            .craft-image {
-                width: 100%;
-                margin-bottom: 2rem;
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             }
-
-            .testimonial-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
+            
+            .cart-modal {
+                max-width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">REGALIA</div>
-        <div class="nav-links">
-            <a href="#puzzles">Collections</a>
-            <a href="#craft">Craftsmanship</a>
-            <a href="#testimonials">Patron Reviews</a>
-            <a href="#contact">Contact</a>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">Mind<span>Bend</span></a>
+                <ul class="nav-links">
+                    <li><a href="#benefits">Benefits</a></li>
+                    <li><a href="#series">Puzzle Series</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li>
+                        <button class="cart-btn" id="open-cart">
+                            Your Cart
+                            <span class="cart-count" id="cart-count">0</span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
         </div>
-        <div class="cart-icon" id="cart-icon">
-            Cart (0)
-        </div>
-    </nav>
-
+    </header>
+    
     <section class="hero">
-        <div>
-            <h1>SPATIAL MASTERPIECES</h1>
-            <p>Exquisitely crafted puzzles for those who demand elegance in every challenge.</p>
-            <button class="cta-button">VIEW COLLECTION</button>
+        <div class="container">
+            <div class="hero-content">
+                <h1>Challenge Your Spatial Reasoning</h1>
+                <p>Discover our collection of premium 3D puzzles that will bend your mind and sharpen your spatial awareness.</p>
+                <a href="#series" class="btn">Explore Series</a>
+            </div>
         </div>
     </section>
-
-    <section id="puzzles">
-        <h2 class="section-title">The Archives</h2>
-        
-        <div class="series-tabs">
-            <div class="series-tab active" data-series="all">All Series</div>
-            <div class="series-tab" data-series="elysium">Elysium</div>
-            <div class="series-tab" data-series="obelisk">Obelisk</div>
-            <div class="series-tab" data-series="fractal">Fractal</div>
-        </div>
-        
-        <div class="puzzles-grid">
-            <!-- Elysium Series -->
-            <div class="puzzle-card" data-series="elysium">
-                <img src="https://images.unsplash.com/photo-1588341713020-de6e9aef75b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="puzzle-image">
-                <div class="puzzle-info">
-                    <h3 class="puzzle-title">Royal Enigma</h3>
-                    <span class="puzzle-difficulty">BEGINNER</span>
-                    <p>A stately introduction to spatial elegance.</p>
-                    <div class="puzzle-price">$285</div>
-                    <button class="add-to-cart" data-id="1" data-name="Royal Enigma" data-price="285">Add to Cart</button>
-                </div>
-            </div>
+    
+    <section id="benefits" class="benefits">
+        <div class="container">
+            <h2 class="section-title">Why Our Spatial Puzzles?</h2>
+            <p style="text-align: center; max-width: 800px; margin: 0 auto 2rem;">Our puzzles are designed to provide more than just entertainment. They offer cognitive benefits that can enhance various aspects of mental performance for all ages.</p>
             
-            <div class="puzzle-card" data-series="elysium">
-                <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="puzzle-image">
-                <div class="puzzle-info">
-                    <h3 class="puzzle-title">Baron's Gambit</h3>
-                    <span class="puzzle-difficulty">INTERMEDIATE</span>
-                    <p>A noble challenge for discerning minds.</p>
-                    <div class="puzzle-price">$375</div>
-                    <button class="add-to-cart" data-id="2" data-name="Baron's Gambit" data-price="375">Add to Cart</button>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🧠</div>
+                    <h3 class="benefit-title">Boosts Brain Power</h3>
+                    <p>Enhances spatial reasoning, problem-solving, and critical thinking skills through engaging 3D challenges.</p>
                 </div>
-            </div>
-            
-            <div class="puzzle-card" data-series="elysium">
-                <img src="https://images.unsplash.com/photo-1580015915217-697d9b9b9db0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="puzzle-image">
-                <div class="puzzle-info">
-                    <h3 class="puzzle-title">Imperial Paradox</h3>
-                    <span class="puzzle-difficulty">EXPERT</span>
-                    <p>For those who command complexity.</p>
-                    <div class="puzzle-price">$495</div>
-                    <button class="add-to-cart" data-id="3" data-name="Imperial Paradox" data-price="495">Add to Cart</button>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎯</div>
+                    <h3 class="benefit-title">Improves Focus</h3>
+                    <p>Requires sustained attention and concentration to solve complex spatial relationships.</p>
                 </div>
-            </div>
-            
-            <!-- Obelisk Series -->
-            <div class="puzzle-card" data-series="obelisk">
-                <img src="https://images.unsplash.com/photo-1588341713020-5ddccc2f72a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="puzzle-image">
-                <div class="puzzle-info">
-                    <h3 class="puzzle-title">Spire of Minos</h3>
-                    <span class="puzzle-difficulty">BEGINNER</span>
-                    <p>A labyrinthine classic reimagined.</p>
-                    <div class="puzzle-price">$295</div>
-                    <button class="add-to-cart" data-id="4" data-name="Spire of Minos" data-price="295">Add to Cart</button>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">📵</div>
+                    <h3 class="benefit-title">Reduces Screen Time</h3>
+                    <p>A great analog activity that doesn't involve digital devices, giving your eyes a break.</p>
                 </div>
-            </div>
-            
-            <div class="puzzle-card" data-series="obelisk">
-                <img src="https://images.unsplash.com/photo-1588341713020-2a0b5a5a5a5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="puzzle-image">
-                <div class="puzzle-info">
-                    <h3 class="puzzle-title">Celestial Obelisk</h3>
-                    <span class="puzzle-difficulty">INTERMEDIATE</span>
-                    <p>Align the heavens in your hands.</p>
-                    <div class="puzzle-price">$385</div>
-                    <button class="add-to-cart" data-id="5" data-name="Celestial Obelisk" data-price="385">Add to Cart</button>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">⏳</div>
+                    <h3 class="benefit-title">Develops Patience</h3>
+                    <p>Encourages persistence and step-by-step thinking to solve increasingly complex puzzles.</p>
                 </div>
-            </div>
-            
-            <div class="puzzle-card" data-series="obelisk">
-                <img src="https://images.unsplash.com/photo-1588341713020-2a0b5a5a5a5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="puzzle-image">
-                <div class="puzzle-info">
-                    <h3 class="puzzle-title">Apex Relic</h3>
-                    <span class="puzzle-difficulty">EXPERT</span>
-                    <p>The ultimate test of spatial mastery.</p>
-                    <div class="puzzle-price">$525</div>
-                    <button class="add-to-cart" data-id="6" data-name="Apex Relic" data-price="525">Add to Cart</button>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">👨‍👩‍👧‍👦</div>
+                    <h3 class="benefit-title">Good for All Ages</h3>
+                    <p>Fun and beneficial for kids, adults, and seniors alike with varying difficulty levels.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🧩</div>
+                    <h3 class="benefit-title">Strengthens Memory</h3>
+                    <p>Helps with short-term and visual memory training through pattern recognition.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🧘</div>
+                    <h3 class="benefit-title">Stress Relief</h3>
+                    <p>Mindfully engaging puzzles offer calm and relaxation through focused problem-solving.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔬</div>
+                    <h3 class="benefit-title">STEM Skill Builder</h3>
+                    <p>Aligns with math, engineering, and logic-based learning for educational development.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">✈️</div>
+                    <h3 class="benefit-title">Portable Entertainment</h3>
+                    <p>Easy to take along for travel, waiting rooms, or anywhere you need engaging mental stimulation.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎁</div>
+                    <h3 class="benefit-title">Great Gift Option</h3>
+                    <p>Unique and thoughtful gift for curious minds that keeps on giving through repeated solving.</p>
                 </div>
             </div>
         </div>
     </section>
-
-    <section id="craft" class="craft-section">
-        <div class="craft-image"></div>
-        <div class="craft-content">
-            <h2>Artisan Craftsmanship</h2>
-            <p>Each Regalia puzzle is meticulously 3D-printed using aerospace-grade resins with royal purple and navy blue composite materials. The process takes up to 40 hours per piece.</p>
-            <p>We collaborate with master craftsmen to ensure every component fits with micron precision—because true luxury lies in the details.</p>
+    
+    <section id="series" class="series-section">
+        <div class="container">
+            <h2 class="section-title">Puzzle Series</h2>
+            
+            <div class="series-grid">
+                <div class="series-card" data-series="elysium">
+                    <div class="series-image">Elysium Series</div>
+                    <div class="series-info">
+                        <h3 class="series-title">Elysium Series</h3>
+                        <p>Classic spatial puzzles with elegant designs</p>
+                    </div>
+                </div>
+                
+                <div class="series-card" data-series="quantum">
+                    <div class="series-image">Quantum Series</div>
+                    <div class="series-info">
+                        <h3 class="series-title">Quantum Series</h3>
+                        <p>Modern puzzles with dynamic elements</p>
+                    </div>
+                </div>
+                
+                <div class="series-card" data-series="fractal">
+                    <div class="series-image">Fractal Series</div>
+                    <div class="series-info">
+                        <h3 class="series-title">Fractal Series</h3>
+                        <p>Infinite patterns and recursive designs</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
-
-    <section id="testimonials" class="testimonials">
-        <h2 class="section-title">Patron Reviews</h2>
-        <div class="testimonial-grid">
-            <div class="testimonial-card">
-                <p class="testimonial-text">"The Imperial Paradox is the most beautifully crafted puzzle I've ever owned. It sits on my desk as both a challenge and a sculpture."</p>
-                <p class="testimonial-author">— James L., Architect</p>
-            </div>
-            <div class="testimonial-card">
-                <p class="testimonial-text">"I gifted the Baron's Gambit to my CEO—he solved it during a board meeting and hasn't stopped talking about it since."</p>
-                <p class="testimonial-author">— Sophia K., Executive</p>
-            </div>
-            <div class="testimonial-card">
-                <p class="testimonial-text">"The Spire of Minos taught me patience. After 3 weeks, the 'aha' moment was worth every second."</p>
-                <p class="testimonial-author">— Daniel R., Collector</p>
+    
+    <section id="products" class="products-section">
+        <div class="container">
+            <a href="#" class="back-to-series">&larr; Back to Series</a>
+            <h2 class="section-title" id="series-products-title">Elysium Series</h2>
+            
+            <div class="products-grid" id="products-grid">
+                <!-- Products will be loaded here dynamically -->
             </div>
         </div>
     </section>
-
-    <footer id="contact">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>Regalia</h3>
-                <p>Spatial puzzles for the intellectually curious.</p>
-            </div>
-            <div class="footer-column">
-                <h3>Collections</h3>
-                <ul>
-                    <li><a href="#puzzles">Elysium Series</a></li>
-                    <li><a href="#puzzles">Obelisk Series</a></li>
-                    <li><a href="#puzzles">Fractal Series</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Support</h3>
-                <ul>
-                    <li><a href="#">Shipping & Returns</a></li>
-                    <li><a href="#">Puzzle Solutions</a></li>
-                    <li><a href="#">Commission Inquiry</a></li>
-                </ul>
-            </div>
-            <div class="footer-column newsletter">
-                <h3>Newsletter</h3>
-                <p>Join for exclusive early access to new collections.</p>
-                <input type="email" placeholder="Your email">
-                <button>Subscribe</button>
-            </div>
-        </div>
-        <div class="copyright">
-            © 2023 Regalia Puzzles. All rights reserved.
+    
+    <footer>
+        <div class="container">
+            <a href="#" class="logo">Mind<span>Bend</span></a>
+            <ul class="footer-links">
+                <li><a href="#benefits">Benefits</a></li>
+                <li><a href="#series">Puzzle Series</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <p class="copyright">&copy; 2023 MindBend Spatial Puzzles. All rights reserved.</p>
         </div>
     </footer>
-
-    <!-- Cart Modal -->
-    <div class="modal" id="cart-modal">
-        <div class="modal-content">
-            <span class="close-modal" id="close-modal">&times;</span>
-            <h2>Your Collection</h2>
+    
+    <!-- Optimized Cart Modal -->
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-header">
+            <h3 class="cart-title">Your Cart</h3>
+            <button class="close-cart">&times;</button>
+        </div>
+        
+        <div class="cart-content">
             <div class="cart-items" id="cart-items">
-                <p>Your cart is empty</p>
+                <div class="empty-cart">
+                    <p>Your cart is currently empty.</p>
+                    <a href="#series" class="btn" id="shop-now-btn">Shop Now</a>
+                </div>
             </div>
-            <div class="cart-total" id="cart-total">
-                TOTAL: $0
+            
+            <div class="cart-summary" id="cart-summary" style="display: none;">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">$0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Shipping:</span>
+                    <span id="shipping">$0.00</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>Total:</span>
+                    <span id="total">$0.00</span>
+                </div>
             </div>
-            <button class="checkout-button" id="checkout-button">Proceed to Checkout</button>
+            
+            <div class="checkout-form" id="checkout-form" style="display: none;">
+                <h3>Shipping Information</h3>
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <select id="country" class="form-control">
+                        <option value="">Select Country</option>
+                        <option value="US">United States</option>
+                        <option value="CA">Canada</option>
+                        <option value="UK">United Kingdom</option>
+                        <option value="AU">Australia</option>
+                        <option value="EU">European Union</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="zipcode">Zip/Postal Code</label>
+                    <input type="text" id="zipcode" class="form-control">
+                </div>
+                
+                <button id="checkout-btn" class="checkout-btn">Secure Checkout</button>
+                
+                <div style="text-align: center; margin: 1rem 0; color: rgba(224, 224, 255, 0.7);">OR</div>
+                
+                <div class="express-checkout">
+                    <button class="express-btn">P</button>
+                    <button class="express-btn">G</button>
+                    <button class="express-btn">A</button>
+                </div>
+            </div>
         </div>
     </div>
-
+    
     <script>
+        // Product data
+        const products = {
+            elysium: [
+                {
+                    id: 'e1',
+                    name: 'Elysium Junior',
+                    price: 19.99,
+                    difficulty: 'easy',
+                    description: 'Perfect introduction to spatial puzzles for kids ages 8+. Bright colors and intuitive design make learning fun.',
+                    image: 'Elysium Junior'
+                },
+                {
+                    id: 'e2',
+                    name: 'Elysium Standard',
+                    price: 24.99,
+                    difficulty: 'medium',
+                    description: 'Our most popular puzzle for teens and adults. Balanced challenge that\'s satisfying to solve.',
+                    image: 'Elysium Standard'
+                },
+                {
+                    id: 'e3',
+                    name: 'Elysium Master',
+                    price: 29.99,
+                    difficulty: 'hard',
+                    description: 'For advanced solvers who crave a real challenge. Will test even experienced puzzle enthusiasts.',
+                    image: 'Elysium Master'
+                }
+            ],
+            quantum: [
+                {
+                    id: 'q1',
+                    name: 'Quantum Spark',
+                    price: 22.99,
+                    difficulty: 'easy',
+                    description: 'Introduces quantum concepts through simple, engaging spatial challenges for young minds.',
+                    image: 'Quantum Spark'
+                },
+                {
+                    id: 'q2',
+                    name: 'Quantum Flux',
+                    price: 27.99,
+                    difficulty: 'medium',
+                    description: 'Dynamic puzzle that changes as you solve it, offering multiple solution paths.',
+                    image: 'Quantum Flux'
+                },
+                {
+                    id: 'q3',
+                    name: 'Quantum Singularity',
+                    price: 32.99,
+                    difficulty: 'hard',
+                    description: 'Our most complex quantum puzzle with multiple interacting components that require precise alignment.',
+                    image: 'Quantum Singularity'
+                }
+            ],
+            fractal: [
+                {
+                    id: 'f1',
+                    name: 'Fractal Seed',
+                    price: 21.99,
+                    difficulty: 'easy',
+                    description: 'Simple fractal patterns introduce children to recursive thinking and geometric beauty.',
+                    image: 'Fractal Seed'
+                },
+                {
+                    id: 'f2',
+                    name: 'Fractal Bloom',
+                    price: 26.99,
+                    difficulty: 'medium',
+                    description: 'Intermediate fractal puzzle with multiple layers that reveal beautiful patterns when solved.',
+                    image: 'Fractal Bloom'
+                },
+                {
+                    id: 'f3',
+                    name: 'Fractal Mandala',
+                    price: 31.99,
+                    difficulty: 'hard',
+                    description: 'Complex fractal design with intricate details that challenge even the most patient solvers.',
+                    image: 'Fractal Mandala'
+                }
+            ]
+        };
+        
         // Cart functionality
         let cart = [];
-        const cartIcon = document.getElementById('cart-icon');
+        
+        // DOM elements
+        const openCartBtn = document.getElementById('open-cart');
         const cartModal = document.getElementById('cart-modal');
-        const closeModal = document.getElementById('close-modal');
-        const cartItemsContainer = document.getElementById('cart-items');
-        const cartTotal = document.getElementById('cart-total');
-        const checkoutButton = document.getElementById('checkout-button');
+        const closeCartBtn = document.querySelector('.close-cart');
+        const cartCount = document.getElementById('cart-count');
+        const cartItemsEl = document.getElementById('cart-items');
+        const cartSummary = document.getElementById('cart-summary');
+        const checkoutForm = document.getElementById('checkout-form');
+        const subtotalEl = document.getElementById('subtotal');
+        const shippingEl = document.getElementById('shipping');
+        const totalEl = document.getElementById('total');
+        const countrySelect = document.getElementById('country');
+        const zipcodeInput = document.getElementById('zipcode');
+        const checkoutBtn = document.getElementById('checkout-btn');
+        const shopNowBtn = document.getElementById('shop-now-btn');
         
-        // Series tabs functionality
-        const seriesTabs = document.querySelectorAll('.series-tab');
-        const puzzleCards = document.querySelectorAll('.puzzle-card');
+        // Series and products
+        const seriesCards = document.querySelectorAll('.series-card');
+        const seriesSection = document.querySelector('.series-section');
+        const productsSection = document.querySelector('.products-section');
+        const productsGrid = document.getElementById('products-grid');
+        const seriesTitle = document.getElementById('series-products-title');
+        const backToSeries = document.querySelector('.back-to-series');
         
-        seriesTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                seriesTabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                
-                const series = tab.getAttribute('data-series');
-                
-                puzzleCards.forEach(card => {
-                    if (series === 'all' || card.getAttribute('data-series') === series) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
+        // Shipping rates
+        const shippingRates = {
+            US: { base: 5.99, perItem: 1.50 },
+            CA: { base: 8.99, perItem: 2.00 },
+            UK: { base: 9.99, perItem: 2.50 },
+            AU: { base: 12.99, perItem: 3.00 },
+            EU: { base: 7.99, perItem: 2.00 },
+            other: { base: 14.99, perItem: 3.50 }
+        };
+        
+        // Event listeners
+        openCartBtn.addEventListener('click', openCart);
+        closeCartBtn.addEventListener('click', closeCart);
+        shopNowBtn.addEventListener('click', closeCart);
+        checkoutBtn.addEventListener('click', processCheckout);
+        countrySelect.addEventListener('change', updateShipping);
+        zipcodeInput.addEventListener('input', updateShipping);
+        
+        // Series navigation
+        seriesCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const series = card.getAttribute('data-series');
+                showProducts(series);
             });
         });
         
-        // Open modal when cart icon is clicked
-        cartIcon.addEventListener('click', () => {
-            cartModal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+        backToSeries.addEventListener('click', (e) => {
+            e.preventDefault();
+            showSeries();
         });
         
-        // Close modal when X is clicked
-        closeModal.addEventListener('click', () => {
-            cartModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        });
-        
-        // Close modal when clicking outside
+        // Close cart when clicking outside
         window.addEventListener('click', (e) => {
             if (e.target === cartModal) {
-                cartModal.style.display = 'none';
-                document.body.style.overflow = 'auto';
+                closeCart();
             }
         });
         
-        // Add to cart functionality
-        const addToCartButtons = document.querySelectorAll('.add-to-cart');
-        addToCartButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const id = button.getAttribute('data-id');
-                const name = button.getAttribute('data-name');
-                const price = parseFloat(button.getAttribute('data-price'));
-                
-                const existingItem = cart.find(item => item.id === id);
-                
-                if (existingItem) {
-                    existingItem.quantity += 1;
-                } else {
-                    cart.push({
-                        id,
-                        name,
-                        price,
-                        quantity: 1
-                    });
-                }
-                
-                updateCart();
-                cartModal.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
+        // Functions
+        function openCart() {
+            cartModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            updateCart();
+        }
+        
+        function closeCart() {
+            cartModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        function showProducts(series) {
+            seriesSection.style.display = 'none';
+            productsSection.style.display = 'block';
+            
+            // Update title
+            seriesTitle.textContent = `${series.charAt(0).toUpperCase() + series.slice(1)} Series`;
+            
+            // Load products
+            productsGrid.innerHTML = '';
+            products[series].forEach(product => {
+                const difficultyClass = `difficulty-${product.difficulty}`;
+                const productEl = document.createElement('div');
+                productEl.className = 'product-card';
+                productEl.innerHTML = `
+                    <div class="product-image">${product.image}</div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.name}</h3>
+                        <span class="difficulty-badge ${difficultyClass}">
+                            ${product.difficulty.charAt(0).toUpperCase() + product.difficulty.slice(1)}
+                        </span>
+                        <div class="product-price">$${product.price.toFixed(2)}</div>
+                        <p class="product-description">${product.description}</p>
+                        <button class="add-to-cart" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}">Add to Cart</button>
+                    </div>
+                `;
+                productsGrid.appendChild(productEl);
             });
-        });
-        
-        // Update cart UI
-        function updateCart() {
-            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
-            cartIcon.textContent = `Cart (${totalItems})`;
             
-            if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<p>Your cart is empty</p>';
-                cartTotal.textContent = 'TOTAL: $0';
-                checkoutButton.style.display = 'none';
-            } else {
-                cartItemsContainer.innerHTML = '';
-                let total = 0;
-                
-                cart.forEach(item => {
-                    const itemTotal = item.price * item.quantity;
-                    total += itemTotal;
-                    
-                    const cartItemElement = document.createElement('div');
-                    cartItemElement.className = 'cart-item';
-                    cartItemElement.innerHTML = `
-                        <img src="${document.querySelector(`[data-id="${item.id}"]`).parentElement.parentElement.querySelector('.puzzle-image').src}" alt="${item.name}">
-                        <div class="cart-item-info">
-                            <div>${item.name}</div>
-                            <div>$${item.price} x ${item.quantity}</div>
-                        </div>
-                        <div class="cart-item-price">$${itemTotal.toFixed(2)}</div>
-                        <div class="remove-item" data-id="${item.id}">✕</div>
-                    `;
-                    
-                    cartItemsContainer.appendChild(cartItemElement);
-                });
-                
-                cartTotal.textContent = `TOTAL: $${total.toFixed(2)}`;
-                checkoutButton.style.display = 'block';
-            }
+            // Add event listeners to new buttons
+            document.querySelectorAll('.add-to-cart').forEach(btn => {
+                btn.addEventListener('click', addToCart);
+            });
             
-            // Add event listeners to remove buttons
-            document.querySelectorAll('.remove-item').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const id = e.target.getAttribute('data-id');
-                    cart = cart.filter(item => item.id !== id);
-                    updateCart();
-                });
+            // Scroll to products
+            window.scrollTo({
+                top: productsSection.offsetTop - 20,
+                behavior: 'smooth'
             });
         }
         
-        // Checkout button
-        checkoutButton.addEventListener('click', () => {
-            alert('Thank you for your purchase. A confirmation will be sent to your email.');
+        function showSeries() {
+            productsSection.style.display = 'none';
+            seriesSection.style.display = 'block';
+            
+            // Scroll to series
+            window.scrollTo({
+                top: seriesSection.offsetTop - 20,
+                behavior: 'smooth'
+            });
+        }
+        
+        function addToCart(e) {
+            const button = e.target;
+            const id = button.getAttribute('data-id');
+            const name = button.getAttribute('data-name');
+            const price = parseFloat(button.getAttribute('data-price'));
+            
+            // Check if item already in cart
+            const existingItem = cart.find(item => item.id === id);
+            
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({
+                    id,
+                    name,
+                    price,
+                    quantity: 1
+                });
+            }
+            
+            updateCart();
+            
+            // Visual feedback
+            button.textContent = 'Added!';
+            setTimeout(() => {
+                button.textContent = 'Add to Cart';
+            }, 1000);
+        }
+        
+        function updateCart() {
+            // Update cart count
+            const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = itemCount;
+            
+            // Update cart display
+            if (cart.length === 0) {
+                cartItemsEl.innerHTML = `
+                    <div class="empty-cart">
+                        <p>Your cart is currently empty.</p>
+                        <a href="#series" class="btn" id="shop-now-btn">Shop Now</a>
+                    </div>
+                `;
+                cartSummary.style.display = 'none';
+                checkoutForm.style.display = 'none';
+                
+                // Re-add event listener to shop now button
+                document.getElementById('shop-now-btn').addEventListener('click', closeCart);
+            } else {
+                cartItemsEl.innerHTML = '';
+                cart.forEach(item => {
+                    const cartItemEl = document.createElement('div');
+                    cartItemEl.className = 'cart-item';
+                    cartItemEl.innerHTML = `
+                        <div class="cart-item-info">
+                            <div class="cart-item-image">${item.name.charAt(0)}</div>
+                            <div class="cart-item-details">
+                                <h4>${item.name}</h4>
+                                <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                            </div>
+                        </div>
+                        <div class="cart-item-quantity">
+                            <button class="quantity-btn minus" data-id="${item.id}">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="quantity-btn plus" data-id="${item.id}">+</button>
+                            <button class="remove-item" data-id="${item.id}">&times;</button>
+                        </div>
+                        <div class="cart-item-total">$${(item.price * item.quantity).toFixed(2)}</div>
+                    `;
+                    cartItemsEl.appendChild(cartItemEl);
+                });
+                
+                // Show summary and checkout form
+                cartSummary.style.display = 'block';
+                checkoutForm.style.display = 'block';
+                
+                // Add event listeners to new buttons
+                document.querySelectorAll('.quantity-btn.minus').forEach(btn => {
+                    btn.addEventListener('click', decreaseQuantity);
+                });
+                
+                document.querySelectorAll('.quantity-btn.plus').forEach(btn => {
+                    btn.addEventListener('click', increaseQuantity);
+                });
+                
+                document.querySelectorAll('.remove-item').forEach(btn => {
+                    btn.addEventListener('click', removeItem);
+                });
+            }
+            
+            updateTotals();
+        }
+        
+        function decreaseQuantity(e) {
+            const id = e.target.getAttribute('data-id');
+            const item = cart.find(item => item.id === id);
+            
+            if (item.quantity > 1) {
+                item.quantity--;
+            } else {
+                cart = cart.filter(item => item.id !== id);
+            }
+            
+            updateCart();
+        }
+        
+        function increaseQuantity(e) {
+            const id = e.target.getAttribute('data-id');
+            const item = cart.find(item => item.id === id);
+            item.quantity++;
+            updateCart();
+        }
+        
+        function removeItem(e) {
+            const id = e.target.getAttribute('data-id');
+            cart = cart.filter(item => item.id !== id);
+            updateCart();
+        }
+        
+        function updateTotals() {
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+            
+            // Update shipping if country is selected
+            if (countrySelect.value) {
+                updateShipping();
+            } else {
+                shippingEl.textContent = '$0.00';
+                totalEl.textContent = `$${subtotal.toFixed(2)}`;
+            }
+        }
+        
+        function updateShipping() {
+            const country = countrySelect.value;
+            const zipcode = zipcodeInput.value.trim();
+            
+            if (!country) {
+                shippingEl.textContent = '$0.00';
+                const subtotal = parseFloat(subtotalEl.textContent.replace('$', ''));
+                totalEl.textContent = `$${subtotal.toFixed(2)}`;
+                return;
+            }
+            
+            // Simple validation
+            if (country === 'US' && (!zipcode || !/^\d{5}(-\d{4})?$/.test(zipcode))) {
+                shippingEl.textContent = 'Enter valid ZIP';
+                return;
+            }
+            
+            if (country === 'CA' && (!zipcode || !/^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$/.test(zipcode))) {
+                shippingEl.textContent = 'Enter valid postal code';
+                return;
+            }
+            
+            if (country === 'UK' && (!zipcode || !/^[A-Z]{1,2}[0-9R][0-9A-Z]? [0-9][A-Z]{2}$/i.test(zipcode))) {
+                shippingEl.textContent = 'Enter valid postcode';
+                return;
+            }
+            
+            // Calculate shipping
+            const rate = shippingRates[country] || shippingRates.other;
+            const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const shippingCost = rate.base + (rate.perItem * itemCount);
+            
+            shippingEl.textContent = `$${shippingCost.toFixed(2)}`;
+            
+            const subtotal = parseFloat(subtotalEl.textContent.replace('$', ''));
+            const total = subtotal + shippingCost;
+            totalEl.textContent = `$${total.toFixed(2)}`;
+        }
+        
+        function processCheckout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty. Please add some puzzles before checking out.');
+                return;
+            }
+            
+            const country = countrySelect.value;
+            const zipcode = zipcodeInput.value.trim();
+            
+            if (!country) {
+                alert('Please select your country.');
+                return;
+            }
+            
+            // Validate zipcode based on country
+            if (country === 'US' && (!zipcode || !/^\d{5}(-\d{4})?$/.test(zipcode))) {
+                alert('Please enter a valid US ZIP code.');
+                return;
+            }
+            
+            if (country === 'CA' && (!zipcode || !/^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$/.test(zipcode))) {
+                alert('Please enter a valid Canadian postal code (format: A1A 1A1).');
+                return;
+            }
+            
+            if (country === 'UK' && (!zipcode || !/^[A-Z]{1,2}[0-9R][0-9A-Z]? [0-9][A-Z]{2}$/i.test(zipcode))) {
+                alert('Please enter a valid UK postcode.');
+                return;
+            }
+            
+            // In a real app, you would process payment here
+            // For this demo, we'll just show a confirmation
+            alert('Order placed successfully! Thank you for your purchase.');
+            
+            // Clear cart
             cart = [];
             updateCart();
-            cartModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        });
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
+            closeCart();
+            
+            // Reset form
+            countrySelect.value = '';
+            zipcodeInput.value = '';
+        }
     </script>
 </body>
 </html>
