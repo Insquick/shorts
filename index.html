@@ -65,9 +65,10 @@
             gap: 0.8rem;
         }
         
+        /* Larger logo */
         .logo-img {
-            height: 50px;
-            width: 50px;
+            height: 65px;
+            width: 65px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid var(--highlight);
@@ -75,7 +76,7 @@
         }
         
         .logo-text {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             font-weight: 700;
             color: white;
         }
@@ -595,16 +596,16 @@
             box-shadow: 0 6px 12px rgba(0,0,0,0.2);
         }
         
-        /* Floating Cart Button */
+        /* Larger floating cart button */
         .floating-cart {
             position: fixed;
             bottom: 30px;
             right: 30px;
             background: var(--purple);
             color: white;
-            padding: 0 1.8rem;
-            height: 60px;
-            border-radius: 30px;
+            padding: 0 2.2rem;
+            height: 75px;
+            border-radius: 37px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -613,7 +614,7 @@
             z-index: 90;
             transition: all 0.3s;
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             gap: 0.5rem;
         }
         
@@ -623,23 +624,25 @@
             box-shadow: 0 8px 25px rgba(106, 13, 173, 0.6);
         }
         
+        /* Larger cart count bubble */
         .cart-count {
             position: absolute;
-            top: -8px;
-            right: -8px;
+            top: -12px;
+            right: -12px;
             background: white;
             color: var(--purple);
             border-radius: 50%;
-            width: 24px;
-            height: 24px;
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9rem;
+            font-size: 1.1rem;
             font-weight: 700;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         
-        /* About Modal */
+        /* About Modal with scrollable content */
         .about-modal {
             display: none;
             position: fixed;
@@ -647,24 +650,38 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(10, 10, 26, 0.9) url('MindBendFull.png') no-repeat center center;
-            background-size: cover;
+            background: rgba(10, 10, 26, 0.9);
             z-index: 200;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(5px);
         }
         
         .about-content {
             background: var(--dark-blue);
             border-radius: 16px;
-            padding: 2rem;
+            padding: 2.5rem;
             max-width: 600px;
             width: 90%;
             position: relative;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             animation: fadeIn 0.3s ease-out;
             border: 1px solid rgba(255,255,255,0.1);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .about-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('MindBendFull.png') no-repeat center center;
+            background-size: cover;
+            opacity: 0.1;
+            filter: blur(3px);
+            z-index: -1;
         }
         
         @keyframes fadeIn {
@@ -673,7 +690,7 @@
         }
         
         .about-content h2 {
-            font-size: 2rem;
+            font-size: 2.2rem;
             margin-bottom: 1.5rem;
             color: white;
             text-align: center;
@@ -697,15 +714,16 @@
             background: none;
             border: none;
             color: var(--text);
-            font-size: 2rem;
+            font-size: 2.2rem;
             cursor: pointer;
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
             transition: all 0.3s;
+            z-index: 10;
         }
         
         .close-about:hover {
@@ -1064,21 +1082,43 @@
                 max-width: 100%;
             }
             
-            .floating-cart {
-                bottom: 20px;
-                right: 20px;
-                height: 50px;
-                padding: 0 1.2rem;
-                font-size: 0.9rem;
-            }
-            
+            /* Larger logo for mobile */
             .logo-img {
-                height: 45px;
-                width: 45px;
+                height: 55px;
+                width: 55px;
             }
             
             .logo-text {
-                font-size: 1.6rem;
+                font-size: 1.8rem;
+            }
+            
+            /* Floating cart adjustments */
+            .floating-cart {
+                height: 65px;
+                padding: 0 1.8rem;
+                font-size: 1.1rem;
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .cart-count {
+                width: 28px;
+                height: 28px;
+                font-size: 1rem;
+            }
+            
+            /* About modal adjustments */
+            .about-content {
+                padding: 2rem 1.5rem;
+                max-height: 70vh;
+            }
+            
+            .close-about {
+                top: 0.5rem;
+                right: 0.5rem;
+                width: 40px;
+                height: 40px;
+                font-size: 2rem;
             }
         }
         
@@ -1120,21 +1160,43 @@
                 margin: 0.5rem 0;
             }
             
-            .floating-cart {
-                bottom: 15px;
-                right: 15px;
-                height: 45px;
-                padding: 0 1rem;
-                font-size: 0.8rem;
-            }
-            
+            /* Logo adjustments for small mobile */
             .logo-img {
-                height: 40px;
-                width: 40px;
+                height: 50px;
+                width: 50px;
             }
             
             .logo-text {
-                font-size: 1.5rem;
+                font-size: 1.6rem;
+            }
+            
+            /* Floating cart for small mobile */
+            .floating-cart {
+                height: 60px;
+                padding: 0 1.5rem;
+                font-size: 1rem;
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            .cart-count {
+                width: 26px;
+                height: 26px;
+                font-size: 0.9rem;
+            }
+            
+            /* About modal for small mobile */
+            .about-content {
+                padding: 1.5rem 1rem;
+                max-height: 65vh;
+            }
+            
+            .about-content h2 {
+                font-size: 1.8rem;
+            }
+            
+            .about-content p {
+                font-size: 1rem;
             }
         }
     </style>
@@ -1166,6 +1228,10 @@
             <h2>About Mind<span>Bend</span></h2>
             <p>MindBend was founded by a team of cognitive scientists and puzzle enthusiasts who wanted to create spatial reasoning challenges that were both beautiful and mentally stimulating. Our puzzles are designed to provide the perfect balance of challenge and satisfaction while helping people of all ages develop their spatial reasoning skills.</p>
             <p>Each puzzle in our collection has been carefully crafted to engage different aspects of spatial cognition, from mental rotation to pattern recognition. We believe that regular practice with spatial puzzles can enhance problem-solving abilities in many areas of life.</p>
+            <p>Our mission is to create puzzles that are not only fun but also beneficial for cognitive development. We carefully design each puzzle to challenge different aspects of spatial reasoning, ensuring a well-rounded mental workout.</p>
+            <p>The MindBend team consists of experts in cognitive psychology, game design, and education. We combine our knowledge to create puzzles that are both entertaining and educationally valuable.</p>
+            <p>We're committed to sustainability and use eco-friendly materials in all our products. Our puzzles are made to last, using high-quality materials that can withstand years of use.</p>
+            <p>Thank you for choosing MindBend. We hope our puzzles bring you many hours of enjoyment and mental stimulation!</p>
         </div>
     </div>
     
