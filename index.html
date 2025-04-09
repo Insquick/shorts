@@ -12,9 +12,10 @@
             --light-purple: #9b59b6;
             --text: #e0e0ff;
             --highlight: #bb86fc;
-            --emerald: linear-gradient(90deg, #2ecc71, #27ae60);
-            --gold: linear-gradient(90deg, #f1c40f, #f39c12);
-            --diamond-blue: linear-gradient(90deg, #3498db, #2980b9);
+            --emerald: linear-gradient(135deg, #2ecc71, #27ae60);
+            --gold: linear-gradient(135deg, #f1c40f, #f39c12);
+            --diamond-blue: linear-gradient(135deg, #3498db, #2980b9);
+            --card-gradient: linear-gradient(135deg, rgba(106,13,173,0.1), rgba(18,18,43,0.3));
         }
         
         * {
@@ -45,7 +46,7 @@
         
         .container {
             width: 95%;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 15px;
         }
@@ -58,15 +59,24 @@
         }
         
         .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 0.8rem;
+        }
+        
+        .logo-img {
+            height: 40px;
+            width: auto;
+        }
+        
+        .logo-text {
             font-size: 1.8rem;
             font-weight: 700;
             color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
         }
         
-        .logo span {
+        .logo-text span {
             color: var(--highlight);
         }
         
@@ -161,7 +171,6 @@
             display: flex;
             align-items: center;
             position: relative;
-            text-align: center;
         }
         
         .hero::before {
@@ -177,115 +186,267 @@
         .hero-content {
             position: relative;
             z-index: 1;
-            max-width: 800px;
-            margin: 0 auto;
+            max-width: 600px;
             padding: 0 20px;
         }
         
         .hero h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 1rem;
             color: white;
+            font-weight: 800;
+            line-height: 1.2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
         
         .hero p {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            font-weight: 500;
+            letter-spacing: 0.5px;
         }
         
         .btn {
             display: inline-block;
             background: var(--purple);
             color: white;
-            padding: 0.8rem 1.5rem;
+            padding: 0.8rem 1.8rem;
             border: none;
-            border-radius: 4px;
-            font-size: 1rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         
         .btn:hover {
             background: var(--light-purple);
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
         
-        .btn-large {
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-        
-        .section {
+        .benefits {
             padding: 3rem 0;
+            background-color: var(--dark-blue);
+            position: relative;
+            overflow: hidden;
             text-align: center;
         }
         
-        .dark-section {
-            background-color: var(--dark-blue);
+        .benefits::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.freepnglogos.com/uploads/albert-einstein-png/einstein-png-transparent-einstein-images-30.png') no-repeat center right;
+            background-size: contain;
+            opacity: 0.05;
+            z-index: 0;
+        }
+        
+        .benefits-carousel {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .benefits-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+            touch-action: pan-y;
+        }
+        
+        .benefit-card {
+            min-width: 100%;
+            padding: 1.5rem;
+            text-align: center;
+            background: var(--card-gradient);
+            border-radius: 12px;
+            border-left: 4px solid var(--purple);
+            transition: all 0.3s;
+            box-sizing: border-box;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        
+        .benefit-icon {
+            font-size: 2.5rem;
+            color: var(--highlight);
+            margin-bottom: 1rem;
+        }
+        
+        .benefit-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        .benefit-card p {
+            font-size: 1.1rem;
+            font-weight: 400;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        
+        .carousel-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0 0.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        
+        .carousel-btn:hover {
+            background: var(--purple);
+        }
+        
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            margin: 0 0.3rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .dot.active {
+            background: var(--highlight);
+            transform: scale(1.2);
+        }
+        
+        .series-section {
+            padding: 3rem 0;
+            background-color: var(--dark-bg);
+            text-align: center;
         }
         
         .section-title {
             text-align: center;
             margin-bottom: 2rem;
-            font-size: 2rem;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--highlight);
+            border-radius: 2px;
         }
         
         .section-subtitle {
             text-align: center;
             max-width: 700px;
-            margin: 0 auto 2rem;
+            margin: 0 auto 3rem;
             color: rgba(224, 224, 255, 0.8);
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            font-weight: 400;
+            line-height: 1.6;
+            padding: 0 15px;
         }
         
         .series-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            max-width: 900px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
             margin: 0 auto;
         }
         
         .series-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
+            background: var(--card-gradient);
+            border-radius: 16px;
             overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             border: 1px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
         .series-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
             border-color: var(--highlight);
         }
         
         .series-image {
-            height: 180px;
+            height: 200px;
             background-color: #2a2a4a;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text);
-            font-size: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: 700;
             position: relative;
+            overflow: hidden;
+        }
+        
+        .series-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(106,13,173,0.3), rgba(18,18,43,0.5));
         }
         
         .series-info {
-            padding: 1.25rem;
+            padding: 1.5rem;
             text-align: center;
         }
         
         .series-title {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .series-card p {
+            font-size: 1rem;
+            color: rgba(224, 224, 255, 0.8);
+            font-weight: 400;
         }
         
         .products-section {
@@ -295,86 +456,119 @@
             text-align: center;
         }
         
+        .products-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
         .back-to-series {
             display: inline-block;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.5rem;
             color: var(--highlight);
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 600;
             transition: color 0.3s;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            align-self: flex-start;
         }
         
         .back-to-series:hover {
             color: var(--light-purple);
+            background: rgba(187, 134, 252, 0.1);
         }
         
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.5rem;
-            max-width: 900px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
             margin: 0 auto;
+            padding: 0 15px;
         }
         
         .product-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
+            background: var(--card-gradient);
+            border-radius: 16px;
             overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
         .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
             border-color: var(--highlight);
         }
         
         .product-image {
-            height: 180px;
+            height: 200px;
             background-color: #2a2a4a;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text);
-            font-size: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(106,13,173,0.3), rgba(18,18,43,0.5));
         }
         
         .product-info {
-            padding: 1.25rem;
+            padding: 1.5rem;
+            text-align: left;
         }
         
         .product-title {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: white;
         }
         
         .product-price {
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             color: var(--highlight);
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
             font-weight: bold;
         }
         
         .product-description {
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.5rem;
             color: rgba(224, 224, 255, 0.8);
-            font-size: 0.95rem;
+            font-size: 1rem;
+            line-height: 1.6;
         }
         
         .difficulty-badge {
             display: inline-flex;
             align-items: center;
-            padding: 0.4rem 1rem;
+            padding: 0.5rem 1.2rem;
             border-radius: 24px;
-            font-size: 0.85rem;
-            font-weight: 600;
+            font-size: 0.9rem;
+            font-weight: 700;
             position: relative;
             overflow: hidden;
             color: white;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
+            border: none;
         }
         
         .difficulty-badge::before {
@@ -417,18 +611,122 @@
             background: var(--purple);
             color: white;
             border: none;
-            padding: 0.8rem;
-            border-radius: 4px;
+            padding: 0.9rem;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
             font-weight: 600;
             font-size: 1rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         
         .add-to-cart:hover {
             background: var(--light-purple);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
         }
         
+        /* Floating Cart Button */
+        .floating-cart {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--purple);
+            color: white;
+            padding: 0 1.5rem;
+            height: 60px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(106, 13, 173, 0.5);
+            z-index: 90;
+            transition: all 0.3s;
+            font-weight: 600;
+            gap: 0.5rem;
+        }
+        
+        .floating-cart:hover {
+            background: var(--light-purple);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(106, 13, 173, 0.6);
+        }
+        
+        .floating-cart .cart-count {
+            position: static;
+            margin: 0;
+        }
+        
+        /* About Modal */
+        .about-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 26, 0.9);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .about-content {
+            background: var(--dark-blue);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .about-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+            text-align: center;
+        }
+        
+        .about-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: rgba(224, 224, 255, 0.9);
+        }
+        
+        .close-about {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 2rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        
+        .close-about:hover {
+            background: rgba(255,255,255,0.1);
+            color: var(--highlight);
+        }
+        
+        /* Cart Modal */
         .cart-modal {
             display: none;
             position: fixed;
@@ -447,26 +745,32 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.25rem;
+            padding: 1.5rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .cart-title {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             margin: 0;
+            font-weight: 700;
         }
         
         .close-cart {
             background: none;
             border: none;
             color: var(--text);
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
             padding: 0.5rem;
+            transition: color 0.3s;
+        }
+        
+        .close-cart:hover {
+            color: var(--highlight);
         }
         
         .cart-content {
-            padding: 1.25rem;
+            padding: 1.5rem;
         }
         
         .cart-items {
@@ -477,7 +781,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.8rem 0;
+            padding: 1rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
@@ -488,50 +792,55 @@
         .cart-item-info {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: 1rem;
         }
         
         .cart-item-image {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             background-color: #2a2a4a;
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
         }
         
         .cart-item-details h4 {
-            margin: 0 0 0.3rem 0;
-            font-size: 0.95rem;
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+            font-weight: 600;
         }
         
         .cart-item-price {
             color: var(--highlight);
-            font-size: 0.85rem;
+            font-size: 0.9rem;
+            font-weight: 600;
         }
         
         .cart-item-quantity {
             display: flex;
             align-items: center;
-            gap: 0.3rem;
+            gap: 0.5rem;
         }
         
         .quantity-btn {
-            width: 28px;
-            height: 28px;
+            width: 30px;
+            height: 30px;
             background: var(--purple);
             color: white;
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.85rem;
-            transition: background 0.2s;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s;
         }
         
         .quantity-btn:hover {
             background: var(--light-purple);
+            transform: scale(1.1);
         }
         
         .remove-item {
@@ -539,90 +848,101 @@
             border: none;
             color: #ff6b6b;
             cursor: pointer;
-            font-size: 1.1rem;
-            margin-left: 0.3rem;
+            font-size: 1.3rem;
+            margin-left: 0.5rem;
+            transition: transform 0.2s;
+        }
+        
+        .remove-item:hover {
+            transform: scale(1.2);
         }
         
         .cart-summary {
             background: rgba(18, 18, 43, 0.7);
-            padding: 1.25rem;
-            border-radius: 8px;
-            margin-bottom: 1.25rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
         }
         
         .summary-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 0.8rem;
-            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
         }
         
         .summary-total {
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: bold;
             border-top: 1px solid rgba(255, 255, 255, 0.2);
-            padding-top: 0.8rem;
-            margin-top: 0.8rem;
+            padding-top: 1rem;
+            margin-top: 1rem;
         }
         
         .checkout-form {
-            margin-top: 0.8rem;
+            margin-top: 1rem;
         }
         
         .form-group {
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
         }
         
         .form-group label {
             display: block;
-            margin-bottom: 0.3rem;
-            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
         }
         
         .form-control {
             width: 100%;
-            padding: 0.6rem;
+            padding: 0.8rem;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
+            border-radius: 8px;
             color: white;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
+            transition: all 0.3s;
         }
         
         .form-control:focus {
             outline: none;
             border-color: var(--highlight);
+            box-shadow: 0 0 0 2px rgba(187, 134, 252, 0.3);
         }
         
         .checkout-btn {
             width: 100%;
-            padding: 0.8rem;
+            padding: 1rem;
             background: var(--purple);
             color: white;
             border: none;
             border-radius: 8px;
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            margin-top: 0.8rem;
+            margin-top: 1rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         
         .checkout-btn:hover {
             background: var(--light-purple);
             transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
         }
         
         .express-checkout {
             display: flex;
             justify-content: center;
-            gap: 0.8rem;
-            margin-top: 0.8rem;
+            gap: 1rem;
+            margin-top: 1.5rem;
         }
         
         .express-btn {
-            width: 45px;
-            height: 35px;
+            width: 50px;
+            height: 40px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 8px;
             background: rgba(255, 255, 255, 0.1);
@@ -633,22 +953,31 @@
             justify-content: center;
             color: var(--text);
             font-weight: bold;
+            font-size: 1.1rem;
         }
         
         .express-btn:hover {
             border-color: var(--highlight);
             background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
         }
         
         .empty-cart {
             text-align: center;
-            padding: 1.5rem 0;
+            padding: 2rem 0;
+        }
+        
+        .empty-cart p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: rgba(224, 224, 255, 0.8);
         }
         
         footer {
             background: linear-gradient(135deg, var(--purple), var(--dark-blue));
-            padding: 1.5rem 0;
+            padding: 2rem 0;
             text-align: center;
+            margin-top: auto;
         }
         
         .footer-content {
@@ -661,64 +990,67 @@
             display: flex;
             justify-content: center;
             list-style: none;
-            margin: 1rem 0;
+            margin: 1.5rem 0;
             padding: 0;
             flex-wrap: wrap;
             align-items: center;
         }
         
         .footer-links li {
-            margin: 0.5rem 1rem;
+            margin: 0.5rem 1.5rem;
             white-space: nowrap;
         }
         
         .footer-links a {
             color: var(--text);
             text-decoration: none;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: color 0.3s;
         }
         
         .footer-links a:hover {
-            text-decoration: underline;
+            color: var(--highlight);
+            text-decoration: none;
         }
         
         .copyright {
-            margin-top: 1rem;
+            margin-top: 1.5rem;
             color: rgba(224, 224, 255, 0.7);
-            font-size: 0.9rem;
-        }
-        
-        /* Benefits Grid */
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        
-        .benefit-card {
-            padding: 1.5rem;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            border-left: 4px solid var(--purple);
-            transition: all 0.3s;
-        }
-        
-        .benefit-icon {
-            font-size: 2.5rem;
-            color: var(--highlight);
-            margin-bottom: 1rem;
-        }
-        
-        .benefit-title {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: white;
+            font-size: 0.95rem;
         }
         
         /* Media Queries */
+        @media (max-width: 900px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .benefit-card {
+                padding: 1.5rem;
+            }
+            
+            .benefit-icon {
+                font-size: 2.2rem;
+            }
+            
+            .benefit-title {
+                font-size: 1.4rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+        }
+        
         @media (max-width: 768px) {
             .hero {
                 height: 50vh;
@@ -726,19 +1058,31 @@
             }
             
             .hero h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             
             .section-title {
-                font-size: 1.8rem;
+                font-size: 2rem;
             }
             
             .section-subtitle {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
             
-            .nav-links {
-                display: none;
+            .series-grid, .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .cart-modal {
+                max-width: 100%;
+            }
+            
+            .floating-cart {
+                bottom: 20px;
+                right: 20px;
+                height: 50px;
+                padding: 0 1.2rem;
+                font-size: 0.9rem;
             }
         }
         
@@ -752,19 +1096,32 @@
                 font-size: 1.8rem;
             }
             
-            .logo {
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .logo-text {
                 font-size: 1.5rem;
             }
             
-            .cart-btn {
-                padding: 0.6rem 1rem;
-                font-size: 0.9rem;
+            .logo-img {
+                height: 30px;
             }
             
-            .cart-count {
-                width: 20px;
-                height: 20px;
-                font-size: 0.8rem;
+            .series-grid, .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .benefit-card {
+                padding: 1.2rem;
+            }
+            
+            .benefit-title {
+                font-size: 1.3rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
             }
             
             .footer-links {
@@ -774,6 +1131,14 @@
             .footer-links li {
                 margin: 0.5rem 0;
             }
+            
+            .floating-cart {
+                bottom: 15px;
+                right: 15px;
+                height: 45px;
+                padding: 0 1rem;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
@@ -781,67 +1146,126 @@
     <header>
         <div class="container">
             <nav>
-                <a href="#" class="logo">Mind<span>Bend</span></a>
+                <a href="#" class="logo">
+                    <img src="MindBendPlain.png" alt="MindBend Logo" class="logo-img">
+                    <span class="logo-text">Mind<span>Bend</span></span>
+                </a>
                 <div class="nav-content">
                     <ul class="nav-links">
                         <li><a href="#benefits">Benefits</a></li>
                         <li><a href="#series">Puzzle Series</a></li>
-                        <li><a href="#about">About</a></li>
+                        <li><a href="#" id="about-link">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
                     </ul>
-                    <button class="cart-btn" id="open-cart">
-                        <span>Cart</span>
-                        <span class="cart-count" id="cart-count">0</span>
-                    </button>
                 </div>
             </nav>
         </div>
     </header>
     
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Challenge Your Spatial Reasoning</h1>
-            <p>Discover our collection of premium 3D puzzles that will bend your mind and sharpen your spatial awareness.</p>
-            <a href="#series" class="btn btn-large">Shop Now</a>
+    <!-- About Modal -->
+    <div class="about-modal" id="about-modal">
+        <div class="about-content">
+            <button class="close-about" id="close-about">&times;</button>
+            <h2>About MindBend</h2>
+            <p>MindBend was founded by a team of cognitive scientists and puzzle enthusiasts who wanted to create spatial reasoning challenges that were both beautiful and mentally stimulating. Our puzzles are designed to provide the perfect balance of challenge and satisfaction while helping people of all ages develop their spatial reasoning skills.</p>
+            <p>Each puzzle in our collection has been carefully crafted to engage different aspects of spatial cognition, from mental rotation to pattern recognition. We believe that regular practice with spatial puzzles can enhance problem-solving abilities in many areas of life.</p>
         </div>
-    </section>
+    </div>
     
-    <section id="benefits" class="section dark-section">
+    <section class="hero">
         <div class="container">
-            <h2 class="section-title">Why Our Spatial Puzzles?</h2>
-            <p class="section-subtitle">Our puzzles are designed to provide more than just entertainment. They offer cognitive benefits that can enhance various aspects of mental performance for all ages.</p>
-            
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="benefit-icon">🧠</div>
-                    <h3 class="benefit-title">Boosts Brain Power</h3>
-                    <p>Enhances spatial reasoning, problem-solving, and critical thinking skills through engaging 3D challenges.</p>
-                </div>
-                
-                <div class="benefit-card">
-                    <div class="benefit-icon">🎯</div>
-                    <h3 class="benefit-title">Improves Focus</h3>
-                    <p>Requires sustained attention and concentration to solve complex spatial relationships.</p>
-                </div>
-                
-                <div class="benefit-card">
-                    <div class="benefit-icon">📵</div>
-                    <h3 class="benefit-title">Reduces Screen Time</h3>
-                    <p>A great analog activity that doesn't involve digital devices, giving your eyes a break.</p>
-                </div>
-                
-                <div class="benefit-card">
-                    <div class="benefit-icon">⏳</div>
-                    <h3 class="benefit-title">Develops Patience</h3>
-                    <p>Encourages persistence and step-by-step thinking to solve increasingly complex puzzles.</p>
-                </div>
+            <div class="hero-content">
+                <h1>Challenge Your Spatial Reasoning</h1>
+                <p>Discover our collection of premium 3D puzzles that will bend your mind and sharpen your spatial awareness.</p>
+                <a href="#series" class="btn">Explore Series</a>
             </div>
         </div>
     </section>
     
-    <section id="series" class="section">
+    <section id="benefits" class="benefits">
+        <div class="container">
+            <h2 class="section-title">Why Our Spatial Puzzles?</h2>
+            <p class="section-subtitle">Our puzzles are designed to provide more than just entertainment. They offer cognitive benefits that can enhance various aspects of mental performance for all ages.</p>
+            
+            <div class="benefits-carousel">
+                <div class="benefits-track" id="benefits-track">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🧠</div>
+                        <h3 class="benefit-title">Boosts Brain Power</h3>
+                        <p>Enhances spatial reasoning, problem-solving, and critical thinking skills through engaging 3D challenges.</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🎯</div>
+                        <h3 class="benefit-title">Improves Focus</h3>
+                        <p>Requires sustained attention and concentration to solve complex spatial relationships.</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">📵</div>
+                        <h3 class="benefit-title">Reduces Screen Time</h3>
+                        <p>A great analog activity that doesn't involve digital devices, giving your eyes a break.</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">⏳</div>
+                        <h3 class="benefit-title">Develops Patience</h3>
+                        <p>Encourages persistence and step-by-step thinking to solve increasingly complex puzzles.</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">👨‍👩‍👧‍👦</div>
+                        <h3 class="benefit-title">Good for All Ages</h3>
+                        <p>Fun and beneficial for kids, adults, and seniors alike with varying difficulty levels.</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🧩</div>
+                        <h3 class="benefit-title">Strengthens Memory</h3>
+                        <p>Helps with short-term and visual memory training through pattern recognition.</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🧘</div>
+                        <h3 class="benefit-title">Stress Relief</h3>
+                        <p>Mindfully engaging puzzles offer calm and relaxation through focused problem-solving.</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🔬</div>
+                        <h3 class="benefit-title">STEM Skill Builder</h3>
+                        <p>Aligns with math, engineering, and logic-based learning for educational development.</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">✈️</div>
+                        <h3 class="benefit-title">Portable Entertainment</h3>
+                        <p>Easy to take along for travel, waiting rooms, or anywhere you need engaging mental stimulation.</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🎁</div>
+                        <h3 class="benefit-title">Great Gift Option</h3>
+                        <p>Unique and thoughtful gift for curious minds that keeps on giving through repeated solving.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="carousel-controls">
+                <button class="carousel-btn prev-btn">←</button>
+                <button class="carousel-btn next-btn">→</button>
+            </div>
+            
+            <div class="carousel-dots" id="carousel-dots">
+                <!-- Dots will be added dynamically -->
+            </div>
+        </div>
+    </section>
+    
+    <section id="series" class="series-section">
         <div class="container">
             <h2 class="section-title">Puzzle Series</h2>
-            <p class="section-subtitle">Choose from our premium collections of spatial reasoning puzzles, each designed for different skill levels and interests.</p>
+            <p class="section-subtitle">Explore our carefully crafted puzzle series, each designed to challenge different aspects of spatial reasoning and problem-solving.</p>
             
             <div class="series-grid">
                 <div class="series-card" data-series="elysium">
@@ -873,8 +1297,10 @@
     
     <section id="products" class="products-section">
         <div class="container">
-            <a href="#" class="back-to-series">&larr; Back to Series</a>
-            <h2 class="section-title" id="series-products-title">Elysium Series</h2>
+            <div class="products-header">
+                <a href="#" class="back-to-series">&larr; Back to Series</a>
+                <h2 class="section-title" id="series-products-title">Elysium Series</h2>
+            </div>
             
             <div class="products-grid" id="products-grid">
                 <!-- Products will be loaded here dynamically -->
@@ -882,27 +1308,29 @@
         </div>
     </section>
     
-    <section id="about" class="section dark-section">
-        <div class="container">
-            <h2 class="section-title">About MindBend</h2>
-            <p class="section-subtitle">MindBend was founded by a team of cognitive scientists and puzzle enthusiasts who wanted to create spatial reasoning challenges that were both beautiful and mentally stimulating. Our puzzles are designed to provide the perfect balance of challenge and satisfaction while helping people of all ages develop their spatial reasoning skills.</p>
-        </div>
-    </section>
-    
-    <footer>
+    <footer id="contact">
         <div class="container">
             <div class="footer-content">
-                <a href="#" class="logo" style="margin: 0 auto;">Mind<span>Bend</span></a>
+                <a href="#" class="logo" style="margin: 0 auto;">
+                    <img src="MindBendPlain.png" alt="MindBend Logo" class="logo-img">
+                    <span class="logo-text">Mind<span>Bend</span></span>
+                </a>
                 <ul class="footer-links">
                     <li><a href="#benefits">Benefits</a></li>
                     <li><a href="#series">Puzzle Series</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="mailto:contact@mindbend.com">Contact</a></li>
+                    <li><a href="#" id="footer-about-link">About Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
                 </ul>
-                <p class="copyright">&copy; 2023 MindBend Spatial Puzzles. All rights reserved.</p>
+                <p class="copyright">&copy; 2025 MindBend Spatial Puzzles. All rights reserved.</p>
             </div>
         </div>
     </footer>
+    
+    <!-- Floating Cart Button -->
+    <div class="floating-cart" id="floating-cart">
+        Your Cart 🛒
+        <span class="cart-count" id="cart-count">0</span>
+    </div>
     
     <!-- Cart Modal -->
     <div class="cart-modal" id="cart-modal">
@@ -956,7 +1384,7 @@
                 
                 <button id="checkout-btn" class="checkout-btn">Secure Checkout</button>
                 
-                <div style="text-align: center; margin: 1rem 0; color: rgba(224, 224, 255, 0.7);">OR</div>
+                <div style="text-align: center; margin: 1.5rem 0; color: rgba(224, 224, 255, 0.7);">OR</div>
                 
                 <div class="express-checkout">
                     <button class="express-btn">P</button>
@@ -1054,7 +1482,7 @@
         let cart = [];
         
         // DOM elements
-        const openCartBtn = document.getElementById('open-cart');
+        const floatingCartBtn = document.getElementById('floating-cart');
         const cartModal = document.getElementById('cart-modal');
         const closeCartBtn = document.querySelector('.close-cart');
         const cartCount = document.getElementById('cart-count');
@@ -1069,6 +1497,12 @@
         const checkoutBtn = document.getElementById('checkout-btn');
         const shopNowBtn = document.getElementById('shop-now-btn');
         
+        // About modal elements
+        const aboutModal = document.getElementById('about-modal');
+        const aboutLink = document.getElementById('about-link');
+        const footerAboutLink = document.getElementById('footer-about-link');
+        const closeAboutBtn = document.getElementById('close-about');
+        
         // Series and products
         const seriesCards = document.querySelectorAll('.series-card');
         const seriesSection = document.querySelector('.series-section');
@@ -1076,6 +1510,39 @@
         const productsGrid = document.getElementById('products-grid');
         const seriesTitle = document.getElementById('series-products-title');
         const backToSeries = document.querySelector('.back-to-series');
+        
+        // Carousel elements
+        const benefitsTrack = document.getElementById('benefits-track');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        const dotsContainer = document.getElementById('carousel-dots');
+        const benefitCards = document.querySelectorAll('.benefit-card');
+        let currentIndex = 0;
+        let cardWidth = benefitCards[0] ? benefitCards[0].offsetWidth : 300; // Fallback width
+        let carouselInterval;
+        const CAROUSEL_INTERVAL = 5000; // 5 seconds
+        
+        // Touch events for carousel
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        // Create dots
+        if (benefitCards.length > 0) {
+            benefitCards.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (index === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    goToSlide(index);
+                });
+                dotsContainer.appendChild(dot);
+            });
+            
+            // Update card width after DOM is loaded
+            window.addEventListener('load', () => {
+                cardWidth = benefitCards[0].offsetWidth;
+            });
+        }
         
         // Shipping rates
         const shippingRates = {
@@ -1088,12 +1555,56 @@
         };
         
         // Event listeners
-        openCartBtn.addEventListener('click', openCart);
+        floatingCartBtn.addEventListener('click', openCart);
         closeCartBtn.addEventListener('click', closeCart);
         shopNowBtn.addEventListener('click', closeCart);
         checkoutBtn.addEventListener('click', processCheckout);
         countrySelect.addEventListener('change', updateShipping);
         zipcodeInput.addEventListener('input', updateShipping);
+        prevBtn.addEventListener('click', () => {
+            prevSlide();
+            resetCarouselInterval();
+        });
+        nextBtn.addEventListener('click', () => {
+            nextSlide();
+            resetCarouselInterval();
+        });
+        
+        // About modal events
+        aboutLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            aboutModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+        
+        footerAboutLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            aboutModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+        
+        closeAboutBtn.addEventListener('click', () => {
+            aboutModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Close about modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === aboutModal) {
+                aboutModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Touch events for carousel
+        benefitsTrack.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        
+        benefitsTrack.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
         
         // Series navigation
         seriesCards.forEach(card => {
@@ -1115,7 +1626,115 @@
             }
         });
         
+        // Start carousel
+        if (benefitCards.length > 0) {
+            startCarousel();
+        }
+        
         // Functions
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                nextSlide();
+            } else if (touchEndX > touchStartX + 50) {
+                prevSlide();
+            }
+            resetCarouselInterval();
+        }
+        
+        function updateCarousel() {
+            const offset = -currentIndex * cardWidth;
+            benefitsTrack.style.transform = `translateX(${offset}px)`;
+            
+            // Update dots
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+        
+        function goToSlide(index) {
+            currentIndex = index;
+            updateCarousel();
+            resetCarouselInterval();
+        }
+        
+        function nextSlide() {
+            if (currentIndex === benefitCards.length - 1) {
+                // If we're at the last slide, add a clone of the first slide to the end
+                const firstSlide = benefitCards[0].cloneNode(true);
+                benefitsTrack.appendChild(firstSlide);
+                
+                // Animate to the clone
+                currentIndex++;
+                updateCarousel();
+                
+                // After animation, reset to the first slide without animation
+                setTimeout(() => {
+                    benefitsTrack.style.transition = 'none';
+                    currentIndex = 0;
+                    updateCarousel();
+                    
+                    // Remove the clone and restore transition
+                    setTimeout(() => {
+                        benefitsTrack.style.transition = 'transform 0.5s ease-in-out';
+                        benefitsTrack.removeChild(firstSlide);
+                    }, 50);
+                }, 500);
+            } else {
+                currentIndex = (currentIndex + 1) % benefitCards.length;
+                updateCarousel();
+            }
+        }
+        
+        function prevSlide() {
+            if (currentIndex === 0) {
+                // If we're at the first slide, add a clone of the last slide to the beginning
+                const lastSlide = benefitCards[benefitCards.length - 1].cloneNode(true);
+                benefitsTrack.insertBefore(lastSlide, benefitCards[0]);
+                
+                // Set position to show the clone
+                benefitsTrack.style.transition = 'none';
+                currentIndex = -1;
+                updateCarousel();
+                
+                // Now animate to the clone
+                setTimeout(() => {
+                    benefitsTrack.style.transition = 'transform 0.5s ease-in-out';
+                    currentIndex = 0;
+                    updateCarousel();
+                    
+                    // After animation, reset to the last slide without animation
+                    setTimeout(() => {
+                        benefitsTrack.style.transition = 'none';
+                        currentIndex = benefitCards.length - 1;
+                        updateCarousel();
+                        
+                        // Remove the clone and restore transition
+                        setTimeout(() => {
+                            benefitsTrack.style.transition = 'transform 0.5s ease-in-out';
+                            benefitsTrack.removeChild(lastSlide);
+                        }, 50);
+                    }, 500);
+                }, 50);
+            } else {
+                currentIndex = (currentIndex - 1 + benefitCards.length) % benefitCards.length;
+                updateCarousel();
+            }
+        }
+        
+        function startCarousel() {
+            carouselInterval = setInterval(nextSlide, CAROUSEL_INTERVAL);
+        }
+        
+        function resetCarouselInterval() {
+            clearInterval(carouselInterval);
+            startCarousel();
+        }
+        
+        // Initialize carousel
+        if (benefitCards.length > 0) {
+            updateCarousel();
+        }
+        
         function openCart() {
             cartModal.style.display = 'block';
             document.body.style.overflow = 'hidden';
@@ -1149,7 +1768,7 @@
                         </span>
                         <div class="product-price">$${product.price.toFixed(2)}</div>
                         <p class="product-description">${product.description}</p>
-                        <button class="add-to-cart" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}">Add to Cart</button>
+                        <button class="add-to-cart" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}">Add to cart</button>
                     </div>
                 `;
                 productsGrid.appendChild(productEl);
@@ -1201,9 +1820,11 @@
             updateCart();
             
             // Visual feedback
-            button.textContent = 'Added!';
+            button.textContent = 'Added to cart!';
+            button.style.backgroundColor = '#2ecc71';
             setTimeout(() => {
-                button.textContent = 'Add to Cart';
+                button.textContent = 'Add to cart';
+                button.style.backgroundColor = '';
             }, 1000);
         }
         
