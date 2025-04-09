@@ -35,7 +35,7 @@
         
         header {
             background: linear-gradient(135deg, var(--dark-blue), var(--purple));
-            padding: 1.25rem 0;
+            padding: 1rem 0;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -47,6 +47,7 @@
             width: 95%;
             max-width: 1400px;
             margin: 0 auto;
+            padding: 0 15px;
         }
         
         nav {
@@ -57,13 +58,13 @@
         }
         
         .logo {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
             color: white;
             text-decoration: none;
             display: flex;
             align-items: center;
-            margin-right: 4rem;
+            margin-right: 2rem;
         }
         
         .logo span {
@@ -74,12 +75,13 @@
             display: flex;
             align-items: center;
             width: 100%;
+            justify-content: space-between;
         }
         
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 2.5rem;
+            gap: 1.5rem;
             margin-right: auto;
         }
         
@@ -92,7 +94,7 @@
         .nav-links a {
             color: var(--text);
             text-decoration: none;
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 500;
             padding: 0.5rem 0;
             position: relative;
@@ -123,15 +125,14 @@
             align-items: center;
             background: var(--purple);
             color: white;
-            padding: 0.8rem 1.75rem;
+            padding: 0.7rem 1.5rem;
             border: none;
             border-radius: 50px;
             font-weight: 600;
-            font-size: 1.05rem;
+            font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            margin-left: 2rem;
             white-space: nowrap;
         }
         
@@ -145,19 +146,30 @@
             background: white;
             color: var(--purple);
             border-radius: 50%;
-            width: 26px;
-            height: 26px;
+            width: 24px;
+            height: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 700;
-            margin-left: 0.75rem;
+            margin-left: 0.5rem;
+        }
+        
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            margin-left: 1rem;
         }
         
         .hero {
             background: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
             height: 60vh;
+            min-height: 400px;
             display: flex;
             align-items: center;
             position: relative;
@@ -177,16 +189,17 @@
             position: relative;
             z-index: 1;
             max-width: 600px;
+            padding: 0 20px;
         }
         
         .hero h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             margin-bottom: 1rem;
             color: white;
         }
         
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-bottom: 2rem;
         }
         
@@ -210,7 +223,7 @@
         }
         
         .benefits {
-            padding: 4rem 0;
+            padding: 3rem 0;
             background-color: var(--dark-blue);
             position: relative;
             overflow: hidden;
@@ -226,11 +239,12 @@
             display: flex;
             transition: transform 0.5s ease-in-out;
             width: 100%;
+            touch-action: pan-y;
         }
         
         .benefit-card {
             min-width: 100%;
-            padding: 2rem;
+            padding: 1.5rem;
             text-align: center;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
@@ -240,13 +254,13 @@
         }
         
         .benefit-icon {
-            font-size: 3rem;
+            font-size: 2.5rem;
             color: var(--highlight);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
         
         .benefit-title {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             margin-bottom: 1rem;
             color: white;
         }
@@ -254,23 +268,23 @@
         .carousel-controls {
             display: flex;
             justify-content: center;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
         }
         
         .carousel-btn {
             background: rgba(255, 255, 255, 0.1);
             border: none;
             color: var(--text);
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            margin: 0 1rem;
+            margin: 0 0.5rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s;
-            font-size: 1.2rem;
+            font-size: 1rem;
         }
         
         .carousel-btn:hover {
@@ -280,15 +294,15 @@
         .carousel-dots {
             display: flex;
             justify-content: center;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
         }
         
         .dot {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.3);
-            margin: 0 0.5rem;
+            margin: 0 0.3rem;
             cursor: pointer;
             transition: all 0.3s;
         }
@@ -299,12 +313,12 @@
         }
         
         .series-section {
-            padding: 4rem 0;
+            padding: 3rem 0;
             background-color: var(--dark-bg);
         }
         
         .about-section {
-            padding: 4rem 0;
+            padding: 3rem 0;
             background-color: var(--dark-blue);
             text-align: center;
         }
@@ -317,22 +331,23 @@
         
         .section-title {
             text-align: center;
-            margin-bottom: 3rem;
-            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            font-size: 2rem;
         }
         
         .section-subtitle {
             text-align: center;
             max-width: 700px;
-            margin: 0 auto 3rem;
+            margin: 0 auto 2rem;
             color: rgba(224, 224, 255, 0.8);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
+            padding: 0 15px;
         }
         
         .series-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
         }
         
         .series-card {
@@ -351,7 +366,7 @@
         }
         
         .series-image {
-            height: 200px;
+            height: 180px;
             background-color: #2a2a4a;
             display: flex;
             align-items: center;
@@ -362,29 +377,30 @@
         }
         
         .series-info {
-            padding: 1.5rem;
+            padding: 1.25rem;
             text-align: center;
         }
         
         .series-title {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             margin-bottom: 0.5rem;
         }
         
         .products-section {
             display: none;
-            padding: 4rem 0;
+            padding: 3rem 0;
             background-color: var(--dark-blue);
         }
         
         .back-to-series {
             display: inline-block;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             color: var(--highlight);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
-            font-size: 1.1rem;
+            font-size: 1rem;
+            padding: 0 15px;
         }
         
         .back-to-series:hover {
@@ -393,8 +409,9 @@
         
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+            padding: 0 15px;
         }
         
         .product-card {
@@ -412,7 +429,7 @@
         }
         
         .product-image {
-            height: 200px;
+            height: 180px;
             background-color: #2a2a4a;
             display: flex;
             align-items: center;
@@ -422,38 +439,39 @@
         }
         
         .product-info {
-            padding: 1.5rem;
+            padding: 1.25rem;
         }
         
         .product-title {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             margin-bottom: 0.5rem;
         }
         
         .product-price {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--highlight);
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
             font-weight: bold;
         }
         
         .product-description {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
             color: rgba(224, 224, 255, 0.8);
+            font-size: 0.95rem;
         }
         
         .difficulty-badge {
             display: inline-flex;
             align-items: center;
-            padding: 0.5rem 1.2rem;
+            padding: 0.4rem 1rem;
             border-radius: 24px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             position: relative;
             overflow: hidden;
             color: white;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
         }
         
         .difficulty-badge::before {
@@ -488,7 +506,7 @@
         }
         
         .difficulty-hard::before {
-            background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v20H0z' fill='%23ffffff' fill-opacity='0.2'/%3E%3Cpath d='M5 5h2v2H5zM8 5h2v2H8zM11 5h2v2h-2zM14 5h2v2h-2zM5 8h2v2H5zM14 8h2v2h-2zM5 11h2v2H5zM14 11h2v2h-2zM5 14h2v2H5zM8 14h2v2H8zM11 14h2v2h-2zM14 14h2v2h-2z' fill='%23ffffff' fill-opacity='0.3'/%3E%3C/svg%3E");
+            background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v20H0z' fill='%23ffffff' fill-opacity='0.2'/%3E%3Cpath d='M5 5h2v2H5zM8 5h2v2H5zM11 5h2v2h-2zM14 5h2v2h-2zM5 8h2v2H5zM14 8h2v2h-2zM5 11h2v2H5zM14 11h2v2h-2zM5 14h2v2H5zM8 14h2v2H5zM11 14h2v2h-2zM14 14h2v2h-2z' fill='%23ffffff' fill-opacity='0.3'/%3E%3C/svg%3E");
         }
         
         .add-to-cart {
@@ -496,11 +514,12 @@
             background: var(--purple);
             color: white;
             border: none;
-            padding: 0.8rem;
+            padding: 0.7rem;
             border-radius: 4px;
             cursor: pointer;
             transition: background 0.3s;
             font-weight: 600;
+            font-size: 0.95rem;
         }
         
         .add-to-cart:hover {
@@ -525,12 +544,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem;
+            padding: 1.25rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .cart-title {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             margin: 0;
         }
         
@@ -540,21 +559,22 @@
             color: var(--text);
             font-size: 1.5rem;
             cursor: pointer;
+            padding: 0.5rem;
         }
         
         .cart-content {
-            padding: 1.5rem;
+            padding: 1.25rem;
         }
         
         .cart-items {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
         
         .cart-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 0;
+            padding: 0.8rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
@@ -565,45 +585,45 @@
         .cart-item-info {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
         }
         
         .cart-item-image {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             background-color: #2a2a4a;
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
         
         .cart-item-details h4 {
-            margin: 0 0 0.5rem 0;
-            font-size: 1rem;
+            margin: 0 0 0.3rem 0;
+            font-size: 0.95rem;
         }
         
         .cart-item-price {
             color: var(--highlight);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         
         .cart-item-quantity {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.3rem;
         }
         
         .quantity-btn {
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             background: var(--purple);
             color: white;
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             transition: background 0.2s;
         }
         
@@ -616,54 +636,54 @@
             border: none;
             color: #ff6b6b;
             cursor: pointer;
-            font-size: 1.2rem;
-            margin-left: 0.5rem;
+            font-size: 1.1rem;
+            margin-left: 0.3rem;
         }
         
         .cart-summary {
             background: rgba(18, 18, 43, 0.7);
-            padding: 1.5rem;
+            padding: 1.25rem;
             border-radius: 8px;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
         
         .summary-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.85rem;
         }
         
         .summary-total {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: bold;
             border-top: 1px solid rgba(255, 255, 255, 0.2);
-            padding-top: 1rem;
-            margin-top: 1rem;
+            padding-top: 0.8rem;
+            margin-top: 0.8rem;
         }
         
         .checkout-form {
-            margin-top: 1rem;
+            margin-top: 0.8rem;
         }
         
         .form-group {
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
         }
         
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+            font-size: 0.85rem;
         }
         
         .form-control {
             width: 100%;
-            padding: 0.7rem;
+            padding: 0.6rem;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 4px;
             color: white;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         
         .form-control:focus {
@@ -673,16 +693,16 @@
         
         .checkout-btn {
             width: 100%;
-            padding: 1rem;
+            padding: 0.8rem;
             background: var(--purple);
             color: white;
             border: none;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            margin-top: 1rem;
+            margin-top: 0.8rem;
         }
         
         .checkout-btn:hover {
@@ -693,13 +713,13 @@
         .express-checkout {
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
+            gap: 0.8rem;
+            margin-top: 0.8rem;
         }
         
         .express-btn {
-            width: 50px;
-            height: 40px;
+            width: 45px;
+            height: 35px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 8px;
             background: rgba(255, 255, 255, 0.1);
@@ -719,12 +739,12 @@
         
         .empty-cart {
             text-align: center;
-            padding: 2rem 0;
+            padding: 1.5rem 0;
         }
         
         footer {
             background: linear-gradient(135deg, var(--purple), var(--dark-blue));
-            padding: 2rem 0;
+            padding: 1.5rem 0;
             text-align: center;
         }
         
@@ -745,14 +765,14 @@
         }
         
         .footer-links li {
-            margin: 0 1.5rem;
+            margin: 0.5rem 1rem;
             white-space: nowrap;
         }
         
         .footer-links a {
             color: var(--text);
             text-decoration: none;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
         
         .footer-links a:hover {
@@ -762,69 +782,150 @@
         .copyright {
             margin-top: 1rem;
             color: rgba(224, 224, 255, 0.7);
+            font-size: 0.9rem;
         }
         
-        @media (max-width: 1100px) {
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-blue);
+            z-index: 90;
+            padding: 5rem 2rem;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+        
+        .mobile-menu .nav-links {
+            flex-direction: column;
+            gap: 1.5rem;
+            margin: 0;
+        }
+        
+        .mobile-menu .nav-links a {
+            font-size: 1.2rem;
+        }
+        
+        .close-menu {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+        
+        /* Media Queries */
+        @media (max-width: 900px) {
             .nav-links {
-                gap: 1.75rem;
+                display: none;
             }
             
-            .footer-links li {
-                margin: 0 1rem;
-            }
-        }
-        
-        @media (max-width: 950px) {
-            .logo {
-                margin-right: 2rem;
-                font-size: 1.8rem;
-            }
-            
-            .nav-links a {
-                font-size: 1.05rem;
-            }
-            
-            .cart-btn {
-                padding: 0.7rem 1.5rem;
-                font-size: 1rem;
-            }
-            
-            .footer-links li {
-                margin: 0 0.75rem;
-            }
-        }
-        
-        @media (max-width: 800px) {
-            .nav-links {
-                gap: 1.25rem;
+            .hamburger {
+                display: block;
             }
             
             .hero h1 {
                 font-size: 2.2rem;
             }
             
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .benefit-card {
+                padding: 1.25rem;
+            }
+            
+            .benefit-icon {
+                font-size: 2rem;
+            }
+            
+            .benefit-title {
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero {
+                height: 50vh;
+                min-height: 350px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .section-subtitle {
+                font-size: 1rem;
+            }
+            
             .series-grid, .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             }
             
             .cart-modal {
                 max-width: 100%;
             }
-            
-            .footer-links {
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .footer-links li {
-                margin: 0.5rem 1rem;
-            }
         }
         
-        @media (max-width: 600px) {
+        @media (max-width: 480px) {
+            .hero {
+                height: 45vh;
+                min-height: 300px;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .cart-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .cart-count {
+                width: 20px;
+                height: 20px;
+                font-size: 0.8rem;
+            }
+            
+            .series-grid, .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .benefit-card {
+                padding: 1rem;
+            }
+            
+            .benefit-title {
+                font-size: 1.1rem;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+            }
+            
             .footer-links li {
-                margin: 0.5rem 0.75rem;
+                margin: 0.5rem 0;
             }
         }
     </style>
@@ -842,13 +943,25 @@
                         <li><a href="#contact">Contact</a></li>
                     </ul>
                     <button class="cart-btn" id="open-cart">
-                        <span>Cart</span>
+                        <span>Your Cart</span>
                         <span class="cart-count" id="cart-count">0</span>
                     </button>
+                    <button class="hamburger" id="hamburger">☰</button>
                 </div>
             </nav>
         </div>
     </header>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <button class="close-menu" id="close-menu">&times;</button>
+        <ul class="nav-links">
+            <li><a href="#benefits" class="mobile-nav-link">Benefits</a></li>
+            <li><a href="#series" class="mobile-nav-link">Puzzle Series</a></li>
+            <li><a href="#about" class="mobile-nav-link">About Us</a></li>
+            <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+        </ul>
+    </div>
     
     <section class="hero">
         <div class="container">
@@ -1172,6 +1285,12 @@
         const checkoutBtn = document.getElementById('checkout-btn');
         const shopNowBtn = document.getElementById('shop-now-btn');
         
+        // Mobile menu elements
+        const hamburger = document.getElementById('hamburger');
+        const closeMenuBtn = document.getElementById('close-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        
         // Series and products
         const seriesCards = document.querySelectorAll('.series-card');
         const seriesSection = document.querySelector('.series-section');
@@ -1187,20 +1306,31 @@
         const dotsContainer = document.getElementById('carousel-dots');
         const benefitCards = document.querySelectorAll('.benefit-card');
         let currentIndex = 0;
-        const cardWidth = benefitCards[0].offsetWidth;
+        let cardWidth = benefitCards[0] ? benefitCards[0].offsetWidth : 300; // Fallback width
         let carouselInterval;
         const CAROUSEL_INTERVAL = 5000; // 5 seconds
         
+        // Touch events for carousel
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
         // Create dots
-        benefitCards.forEach((_, index) => {
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
-            if (index === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => {
-                goToSlide(index);
+        if (benefitCards.length > 0) {
+            benefitCards.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (index === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    goToSlide(index);
+                });
+                dotsContainer.appendChild(dot);
             });
-            dotsContainer.appendChild(dot);
-        });
+            
+            // Update card width after DOM is loaded
+            window.addEventListener('load', () => {
+                cardWidth = benefitCards[0].offsetWidth;
+            });
+        }
         
         // Shipping rates
         const shippingRates = {
@@ -1228,6 +1358,23 @@
             resetCarouselInterval();
         });
         
+        // Mobile menu events
+        hamburger.addEventListener('click', openMobileMenu);
+        closeMenuBtn.addEventListener('click', closeMobileMenu);
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+        
+        // Touch events for carousel
+        benefitsTrack.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        
+        benefitsTrack.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+        
         // Series navigation
         seriesCards.forEach(card => {
             card.addEventListener('click', () => {
@@ -1249,9 +1396,30 @@
         });
         
         // Start carousel
-        startCarousel();
+        if (benefitCards.length > 0) {
+            startCarousel();
+        }
         
-        // Carousel functions
+        // Functions
+        function openMobileMenu() {
+            mobileMenu.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                nextSlide();
+            } else if (touchEndX > touchStartX + 50) {
+                prevSlide();
+            }
+            resetCarouselInterval();
+        }
+        
         function updateCarousel() {
             const offset = -currentIndex * cardWidth;
             benefitsTrack.style.transform = `translateX(${offset}px)`;
@@ -1342,9 +1510,10 @@
         }
         
         // Initialize carousel
-        updateCarousel();
+        if (benefitCards.length > 0) {
+            updateCarousel();
+        }
         
-        // Functions
         function openCart() {
             cartModal.style.display = 'block';
             document.body.style.overflow = 'hidden';
