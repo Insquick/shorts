@@ -64,7 +64,6 @@
             text-decoration: none;
             display: flex;
             align-items: center;
-            margin-right: 2rem;
         }
         
         .logo span {
@@ -74,15 +73,14 @@
         .nav-content {
             display: flex;
             align-items: center;
-            width: 100%;
-            justify-content: space-between;
+            gap: 1rem;
         }
         
         .nav-links {
             display: flex;
             list-style: none;
+            margin-right: 1rem;
             gap: 1.5rem;
-            margin-right: auto;
         }
         
         .nav-links li {
@@ -1108,7 +1106,7 @@
     <footer id="contact">
         <div class="container">
             <div class="footer-content">
-                <a href="#" class="logo">Mind<span>Bend</span></a>
+                <a href="#" class="logo" style="margin: 0 auto;">Mind<span>Bend</span></a>
                 <ul class="footer-links">
                     <li><a href="#benefits">Benefits</a></li>
                     <li><a href="#series">Puzzle Series</a></li>
@@ -1359,10 +1357,10 @@
         });
         
         // Mobile menu events
-        hamburger.addEventListener('click', openMobileMenu);
-        closeMenuBtn.addEventListener('click', closeMobileMenu);
+        hamburger.addEventListener('click', toggleMobileMenu);
+        closeMenuBtn.addEventListener('click', toggleMobileMenu);
         mobileNavLinks.forEach(link => {
-            link.addEventListener('click', closeMobileMenu);
+            link.addEventListener('click', toggleMobileMenu);
         });
         
         // Touch events for carousel
@@ -1401,14 +1399,9 @@
         }
         
         // Functions
-        function openMobileMenu() {
-            mobileMenu.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeMobileMenu() {
-            mobileMenu.classList.remove('active');
-            document.body.style.overflow = 'auto';
+        function toggleMobileMenu() {
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : 'auto';
         }
         
         function handleSwipe() {
